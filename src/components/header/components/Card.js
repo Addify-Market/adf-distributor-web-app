@@ -1,5 +1,5 @@
 import "../../bids/bids.css";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 import bids1 from "../../../assets/bids1.png";
 import bids2 from "../../../assets/bids2.png";
 import bids3 from "../../../assets/bids3.png";

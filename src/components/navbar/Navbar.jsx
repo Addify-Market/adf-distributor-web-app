@@ -1,27 +1,26 @@
-import React,{ useState} from 'react'
-import './navbar.css'
+import React,{ useState} from 'react';
+import './navbar.css';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
-import logo from '../../assets/logo.png'
+import logo from '../../assets/logo.png';
 import {  Link } from "react-router-dom";
 
 const Menu = () => (
   <>
      <Link to="/"><p>Explore</p> </Link>
      <p>My Items</p>
-    
   </>
- )
+ );
 
  const Navbar = () => {
-  const [toggleMenu,setToggleMenu] = useState(false)
-   const [user,setUser] = useState(false)
+  const [toggleMenu,setToggleMenu] = useState(false);
+  const [user,setUser] = useState(false);
 
   const handleLogout = () => {
     setUser(false);
-  }
+  };
   const handleLogin = () => {
     setUser(true);
-  }
+  };
 
   return (
     <div className='navbar'>
@@ -42,7 +41,6 @@ const Menu = () => (
         <button type='button' className='secondary-btn'>Connect</button>
         </>
       )}
-       
       </div>
       <div className="navbar-menu">
         {toggleMenu ? 
