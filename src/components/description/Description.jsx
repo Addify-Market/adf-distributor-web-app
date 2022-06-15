@@ -1,59 +1,61 @@
 import React from 'react'
 import './description.css'
-import { AiFillHeart } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import bids1 from '../../assets/bids1.png'
 import bids2 from '../../assets/bids2.png'
 import bids3 from '../../assets/bids3.png'
-
 import { Link } from 'react-router-dom';
+import Button from "./components/Button";
 
 const Description = ({title}) => {
+  const { user } = useSelector(state => state);
   return (
-    <div className='bids section__padding'>
-    <div className="bids-container">
-      <div className="bids-container-text">
+    <div className='description-bids section__padding'>
+    <div className="description-bids-container">
+      <div className="description-bids-container-text">
         <h1>{title}</h1>
       </div>
       <div className="description-container-card">
-        <div className="card-columns" >
-          <div className="bids-card">
-            <div className="bids-card-top">
+        <div className="description-card-columns" >
+          <div className="description-bids-card">
+            <div className="description-bids-card-top">
               <img src={bids1} alt="" />
-            <Link to={`/post/123`}>
-            <p className="bids-title">Abstact Smoke Red</p>
-            </Link>
+            <a href={`https://addify-market.github.io/adf-distributor-web-app/`} style={{display:"flex", justifyContent: "space-between"}}>
+            <p className="description-bids-title">Supplier</p>
+            <p><Button color="#4AB3EF" title="Connect" role="supplier" /></p>
+            </a>
             </div>
-            <div className="bids-card-bottom">
-              <p>1.25 <span>ETH</span></p>
-              <p> <AiFillHeart /> 92</p>
+            <div className="description-bids-card-bottom">
+            <p></p>
+             
             </div>
           </div>
         </div>
-        <div className="card-columns" >
-          <div className="bids-card">
-            <div className="bids-card-top">
+        <div className="description-card-columns" >
+          <div className="description-bids-card">
+            <div className="description-bids-card-top">
               <img src={bids2} alt="" />
-            <Link to={`/post/123`}>
-            <p className="bids-title">Mountain Landscape</p>
-            </Link>
+              <a href={`https://addify-market.github.io/adf-supplier-web-app/`} style={{display:"flex", justifyContent: "space-between"}}>
+            <p className="description-bids-title">Distributor</p>
+            <p><Button color="#4AEFB0" title="Connect" role="distributor" /></p>
+            </a>
             </div>
-            <div className="bids-card-bottom">
-              <p>0.20 <span>ETH</span></p>
-              <p> <AiFillHeart /> 25</p>
+            <div className="description-bids-card-bottom">
+            <p></p>
             </div>
           </div>
         </div>
-        <div className="card-columns" >
-          <div className="bids-card">
-            <div className="bids-card-top">
+        <div className="description-card-columns" >
+          <div className="description-bids-card">
+            <div className="description-bids-card-top">
               <img src={bids3} alt="" />
-            <Link to={`/post/123`}>
-            <p className="bids-title">Paint Color on Wall</p>
+            <Link to={`/post/123`} style={{display:"flex", justifyContent: "space-between"}}>
+                <p className="description-bids-title">User</p>
+                <p><Button color="#C74FF0" title="Connect" role="user"/></p>
             </Link>
             </div>
-            <div className="bids-card-bottom">
-              <p>0.55 <span>ETH</span></p>
-              <p> <AiFillHeart /> 55</p>
+            <div className="description-bids-card-bottom">
+              <p></p>
             </div>
           </div>
         </div>

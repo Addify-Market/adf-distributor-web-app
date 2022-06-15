@@ -8,8 +8,9 @@ import { StateProvider } from "./store";
 
 ReactDOM.render(
   <BrowserRouter>
-    <StateProvider />
-    <App />
+    <StateProvider>
+      <App />
+    </StateProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );

@@ -7,6 +7,8 @@ import { PersistGate } from "redux-persist/integration/react";
 
 const init = {
   keyword: "",
+  role: "",
+  user: false,
   addOns: []
 };
 
@@ -22,6 +24,16 @@ const reducer = (state = init, action) => {
         ...state,
         keyword: action.payload
       };
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.payload
+      };
+    case "SET_ROLE":
+      return {
+        ...state,
+        role: action.payload
+      };
 
     default:
       return state;
@@ -31,7 +43,7 @@ const reducer = (state = init, action) => {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["addOns"]
+  whitelist: ["addOns", "user", "role"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
