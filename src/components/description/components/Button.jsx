@@ -1,9 +1,9 @@
 import React from 'react'
 import Button from '@mui/material/Button';
-import useHook from "../../../hooks";
+// import useHook from "../../../hooks";
 
 export default function Buttons({color, title}) {
-  const {toggleUser} = useHook();
+  // const {toggleUser} = useHook();
   // const changeUserStatus = (e) => {
   //   e.preventDefault()
   //   console.log("hits");

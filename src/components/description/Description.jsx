@@ -1,6 +1,6 @@
 import React from 'react'
 import './description.css'
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import bids1 from '../../assets/bids1.png'
 import bids2 from '../../assets/bids2.png'
 import bids3 from '../../assets/bids3.png'
