@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import Button from "./components/Button";
 
 const Description = ({title}) => {
-  const { user } = useSelector(state => state);
+ // const { user } = useSelector(state => state);
   return (
     <div className='description-bids section__padding'>
     <div className="description-bids-container">
