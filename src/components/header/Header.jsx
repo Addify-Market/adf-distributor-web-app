@@ -68,7 +68,7 @@ const Header = () => {
     <div className='header section__padding'>
       <div className="header-content">
         <div>
-          <h1>Discover, collect, and sell extraordinary NFTs</h1>
+          <h1>Discover, collect, and buy extraordinary Addons</h1>
           <img className='shake-vertical' src={coin} alt="" />
         </div>
       </div>
