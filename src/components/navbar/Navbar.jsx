@@ -15,12 +15,14 @@ const Menu = () => (
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(true);
+  const [is_connected, setConnected] = useState(false);
 
-  const handleLogout = () => {
-    setUser(false);
-  };
+  // const handleLogout = () => {
+  //   setUser(false);
+  // };
   const handleLogin = () => {
+    setConnected(true);
     setUser(true);
   };
 
@@ -35,15 +37,27 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-sign">
-        {user && (
+        {user && !is_connected &&(
           <>
-            <Link to="/create">
+            {/* <Link to="/create">
               <button type="button" className="primary-btn" onClick={handleLogout}>
                 Create
               </button>
-            </Link>
+            </Link> */}
             <button type="button" className="secondary-btn" onClick={handleLogin}>
               Connect
+            </button>
+          </>
+        )}
+        {user && is_connected &&(
+          <>
+            {/* <Link to="/create">
+              <button type="button" className="primary-btn" onClick={handleLogout}>
+                Create
+              </button>
+            </Link> */}
+            <button type="button" className="secondary-btn" onClick={handleLogin}>
+              Connected
             </button>
           </>
         )}
@@ -60,15 +74,27 @@ const Navbar = () => {
               <Menu />
             </div>
             <div className="navbar-menu_container-links-sign">
-              {user && (
+              {user && !is_connected &&(
                 <>
-                  <Link to="/create">
+                  {/* <Link to="/create">
                     <button type="button" className="primary-btn">
                       Create
                     </button>
-                  </Link>
+                  </Link> */}
                   <button type="button" className="secondary-btn">
                     Connect
+                  </button>
+                </>
+              )}
+              {user && is_connected &&(
+                <>
+                  {/* <Link to="/create">
+                    <button type="button" className="primary-btn">
+                      Create
+                    </button>
+                  </Link> */}
+                  <button type="button" className="secondary-btn">
+                    Connected
                   </button>
                 </>
               )}
