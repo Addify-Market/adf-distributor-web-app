@@ -23,7 +23,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids1} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">Abstact Smoke Red</p>
               </Link>
               </div>
@@ -37,7 +37,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids2} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">Mountain Landscape</p>
               </Link>
               </div>
@@ -51,7 +51,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids3} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">Paint Color on Wall</p>
               </Link>
               </div>
@@ -65,7 +65,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids4} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">Abstract Patern</p>
               </Link>
               </div>
@@ -79,7 +79,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids5} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">White Line Grafiti</p>
               </Link>
               </div>
@@ -93,7 +93,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids6} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">Abstract Triangle</p>
               </Link>
               </div>
@@ -107,7 +107,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids7} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">Lake Landscape</p>
               </Link>
               </div>
@@ -121,7 +121,7 @@ const Bids = ({title}) => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids8} alt="" />
-              <Link to={`/post/123`}>
+              <Link to={`/item/123`}>
               <p className="bids-title">Blue Red Art</p>
               </Link>
               </div>
