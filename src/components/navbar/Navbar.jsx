@@ -9,10 +9,9 @@ import {data} from "../../config";
 import { useNavigate } from 'react-router-dom';
 const Menu = () => (
   <>
-    <Link to="/">
-      <p>Explore</p>{" "}
+    <Link to="/distributor/available_addons">
+      <p>Available Addons</p>{" "}
     </Link>
-    <p>My Items</p>
   </>
 );
 
@@ -82,6 +81,11 @@ const Navbar = () => {
           <Link to="/">
             <h1>Adify</h1>
           </Link>
+          {is_connected && (
+            <div className="navbar-links_container">
+            <Menu />
+            </div>
+          )}
         </div>
       </div>
       <div className="navbar-sign">
