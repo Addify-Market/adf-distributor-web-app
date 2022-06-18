@@ -49,7 +49,7 @@ const Description = ({title}) => {
           <div className="description-bids-card">
             <div className="description-bids-card-top">
               <img src={bids3} alt="" />
-            <Link to={`/post/123`} style={{display:"flex", justifyContent: "space-between"}}>
+            <Link to={`/item/123`} style={{display:"flex", justifyContent: "space-between"}}>
                 <p className="description-bids-title">User</p>
                 <p><Button color="#C74FF0" title="Connect" role="user"/></p>
             </Link>
