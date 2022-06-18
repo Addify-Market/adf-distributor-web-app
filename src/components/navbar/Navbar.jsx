@@ -12,6 +12,9 @@ const Menu = () => (
     <Link to="/distributor/available_addons">
       <p>Available Addons</p>{" "}
     </Link>
+    <Link to="/distributor/myaddons">
+      <p>My Addons</p>{" "}
+    </Link>
   </>
 );
 
