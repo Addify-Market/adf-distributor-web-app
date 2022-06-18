@@ -16,7 +16,7 @@ const Card = () => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids1} alt="" />
-                <Link to={`/post/123`}>
+                <Link to={`/item/123`}>
                   <p className="bids-title">Abstact Smoke Red</p>
                 </Link>
               </div>
@@ -35,7 +35,7 @@ const Card = () => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids2} alt="" />
-                <Link to={`/post/123`}>
+                <Link to={`/item/123`}>
                   <p className="bids-title">Mountain Landscape</p>
                 </Link>
               </div>
@@ -54,7 +54,7 @@ const Card = () => {
             <div className="bids-card">
               <div className="bids-card-top">
                 <img src={bids3} alt="" />
-                <Link to={`/post/123`}>
+                <Link to={`/item/123`}>
                   <p className="bids-title">Paint Color on Wall</p>
                 </Link>
               </div>
