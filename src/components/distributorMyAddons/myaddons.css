@@ -148,6 +148,6 @@
       background-color: #f4f6f9; 
   }
 a{
-  text-decoration: revert!important;
-  color: blue!important;
+  /* text-decoration: revert!important;
+  color: blue!important; */
 }

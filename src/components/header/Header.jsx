@@ -1,8 +1,8 @@
-import React from 'react'
-import './header.css'
-import "slick-carousel/slick/slick.css"; 
+import React from "react";
+import "./header.css";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import coin from '../../assets/coin.png'
+import coin from "../../assets/coin.png";
 // import { Link  } from 'react-router-dom';
 // import Mu from './components/Mu';
 // import Card from "./components/Card";
@@ -65,15 +65,18 @@ const Header = () => {
   //   ]
   // };
   return (
-    <div className='header section__padding'>
+    <div className="header section__padding">
       <div className="header-content">
         <div>
-          <h1>Discover, collect, and buy extraordinary Addons</h1>
-          <img className='shake-vertical' src={coin} alt="" />
+          <h1>
+            Bind addon with your NFT & <br />
+            be ahead of the crowd
+          </h1>
+          <img className="shake-vertical" src={coin} alt="" />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

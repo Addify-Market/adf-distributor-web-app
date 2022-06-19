@@ -5,12 +5,12 @@ import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 import axios from "axios";
-import {data} from "../../config";
-import { useNavigate } from 'react-router-dom';
+import { data } from "../../config";
+import { useNavigate } from "react-router-dom";
 const Menu = () => (
   <>
     <Link to="/distributor/available_addons">
-      <p>Available Addons</p>{" "}
+      <p>MarketPlace</p>{" "}
     </Link>
     <Link to="/distributor/myaddons">
       <p>My Addons</p>{" "}
@@ -25,31 +25,30 @@ const Navbar = () => {
   let navigate = useNavigate();
   useEffect(() => {
     // Update the document title using the browser API
-    if(localStorage.getItem('distributor')!== null){
+    if (localStorage.getItem("distributor") !== null) {
       setConnected(true);
-    }else{
+    } else {
       setConnected(false);
     }
-    console.log("isconnected",is_connected)
-  },[is_connected]);
+    console.log("isconnected", is_connected);
+  }, [is_connected]);
   // const handleLogout = () => {
   //   setUser(false);
   // };
   const handleLogin = async () => {
-    if (!window.ethereum)
-      alert("No crypto wallet found. Please install it.");
-    
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-    
+    if (!window.ethereum) alert("No crypto wallet found. Please install it.");
+
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+
     //showAccount.innerHTML = account;
-    
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const walletId = await signer.getAddress();
-    console.log("account",walletId);
-    if(walletId){
+    console.log("account", walletId);
+    if (walletId) {
       //console.log(data, "variables");
-      localStorage.setItem("distributor",walletId);
+      localStorage.setItem("distributor", walletId);
       const response = await axios
         .get(`${data.serviceUrl}/distributor/${walletId}`)
         .then(res => res.data)
@@ -57,14 +56,14 @@ const Navbar = () => {
           console.log("\x1b[31mNot Found");
           return null;
         });
-      console.log("respon",response);
-      if(response){
+      console.log("respon", response);
+      if (response) {
         setUser(true);
         setConnected(true);
-        navigate('/');
-      }else{
+        navigate("/");
+      } else {
         setUser(false);
-        navigate('distributor/register');
+        navigate("distributor/register");
       }
       console.log(response);
     }
@@ -72,10 +71,10 @@ const Navbar = () => {
     // setUser(true);
   };
   const handleLogut = async () => {
-    localStorage.removeItem('distributor');
+    localStorage.removeItem("distributor");
     setConnected(false);
-    navigate('/');
-  }
+    navigate("/");
+  };
   return (
     <div className="navbar">
       <div className="navbar-links">
@@ -86,13 +85,13 @@ const Navbar = () => {
           </Link>
           {is_connected && (
             <div className="navbar-links_container">
-            <Menu />
+              <Menu />
             </div>
           )}
         </div>
       </div>
       <div className="navbar-sign">
-        {user && !is_connected &&(
+        {user && !is_connected && (
           <>
             {/* <Link to="/create">
               <button type="button" className="primary-btn" onClick={handleLogout}>
@@ -102,10 +101,9 @@ const Navbar = () => {
             <button type="button" className="secondary-btn" onClick={handleLogin}>
               Connect
             </button>
-            
           </>
         )}
-        {user && is_connected &&(
+        {user && is_connected && (
           <>
             {/* <Link to="/create">
               <button type="button" className="primary-btn" onClick={handleLogout}>
@@ -116,8 +114,8 @@ const Navbar = () => {
               Connected
             </button>
             <button type="button" className="primary-btn" onClick={handleLogut}>
-               Logout
-              </button>
+              Logout
+            </button>
           </>
         )}
       </div>
@@ -133,7 +131,7 @@ const Navbar = () => {
               <Menu />
             </div>
             <div className="navbar-menu_container-links-sign">
-              {user && !is_connected &&(
+              {user && !is_connected && (
                 <>
                   {/* <Link to="/create">
                     <button type="button" className="primary-btn">
@@ -145,7 +143,7 @@ const Navbar = () => {
                   </button>
                 </>
               )}
-              {user && is_connected &&(
+              {user && is_connected && (
                 <>
                   {/* <Link to="/create">
                     <button type="button" className="primary-btn">
