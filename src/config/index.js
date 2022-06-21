@@ -1,5 +1,6 @@
 // require("dotenv").config();
-export const data = {
-    serviceUrl: "https://adf-user-service.herokuapp.com"
-    //serviceUrl: "http://localhost:8080"
-  };
+const variables = {
+  serviceUrl: "https://adf-api-gw.herokuapp.com"
+};
+// https://adf-addon-service.herokuapp.com/addons
+module.exports = variables;
