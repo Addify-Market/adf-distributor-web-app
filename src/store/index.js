@@ -1,15 +1,21 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
-
+import thunk from "redux-thunk";
 const init = {
   keyword: "",
   role: "",
   user: false,
-  addOns: []
+  addons: [],
+  addon: { fetching: false, fetched: false },
+  distributor: {},
+  links: [],
+  nft: { fetching: false, fetched: false },
+  nfts: { list: [], fetching: false, fetched: false },
+  linkCreated: false
 };
 
 const reducer = (state = init, action) => {
@@ -17,7 +23,7 @@ const reducer = (state = init, action) => {
     case "SET_ADDONS":
       return {
         ...state,
-        addOns: action.payload
+        addons: action.payload
       };
     case "SET_KEYWORD":
       return {
@@ -34,7 +40,41 @@ const reducer = (state = init, action) => {
         ...state,
         role: action.payload
       };
-
+    case "DISTRIBUTOR_INFO":
+      return {
+        ...state,
+        distributor: action.data
+      };
+    case "FETCH_ADDONS":
+      return {
+        ...state,
+        addons: action.data
+      };
+    case "FETCH_LINKS":
+      return {
+        ...state,
+        links: action.data
+      };
+    case "ADDON_DETAILS":
+      return {
+        ...state,
+        addon: { ...action.data, fetching: false, fetched: true }
+      };
+    case "NFT_DETAILS":
+      return {
+        ...state,
+        nft: { ...action.data, fetching: false, fetched: true }
+      };
+    case "WALLET_NFTS":
+      return {
+        ...state,
+        nfts: { list: action.data, fetching: false, fetched: true }
+      };
+    case "LINK_CREATED":
+      return {
+        ...state,
+        linkCreated: true
+      };
     default:
       return state;
   }
@@ -43,15 +83,12 @@ const reducer = (state = init, action) => {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["addOns", "user", "role"]
+  whitelist: ["distributor", "user", "role"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
-
-const store = createStore(
-  persistedReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const enhancers = [applyMiddleware(thunk)];
+const store = createStore(persistedReducer, undefined, compose(...enhancers));
 
 const persistore = persistStore(store);
 

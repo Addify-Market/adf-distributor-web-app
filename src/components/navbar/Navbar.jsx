@@ -4,16 +4,17 @@ import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { ethers } from "ethers";
-import axios from "axios";
-import { data } from "../../config";
+import { getDistributorInfo, getWalletNFTs } from "./action";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 const Menu = () => (
   <>
-    <Link to="/distributor/available_addons">
+    <Link to="/distributor/addons">
       <p>MarketPlace</p>{" "}
     </Link>
-    <Link to="/distributor/myaddons">
-      <p>My Addons</p>{" "}
+    <Link to="/distributor/links">
+      <p>My Links</p>{" "}
     </Link>
   </>
 );
@@ -23,6 +24,7 @@ const Navbar = () => {
   const [user, setUser] = useState(true);
   const [is_connected, setConnected] = useState(false);
   let navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     // Update the document title using the browser API
     if (localStorage.getItem("distributor") !== null) {
@@ -35,46 +37,43 @@ const Navbar = () => {
   // const handleLogout = () => {
   //   setUser(false);
   // };
+
+  const { distributor } = useSelector(state => state);
   const handleLogin = async () => {
     if (!window.ethereum) alert("No crypto wallet found. Please install it.");
 
     await window.ethereum.request({ method: "eth_requestAccounts" });
 
-    //showAccount.innerHTML = account;
-
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const walletId = await signer.getAddress();
-    console.log("account", walletId);
     if (walletId) {
-      //console.log(data, "variables");
       localStorage.setItem("distributor", walletId);
-      const response = await axios
-        .get(`${data.serviceUrl}/distributor/${walletId}`)
-        .then(res => res.data)
-        .catch(e => {
-          console.log("\x1b[31mNot Found");
-          return null;
-        });
-      console.log("respon", response);
-      if (response) {
-        setUser(true);
-        setConnected(true);
-        navigate("/");
-      } else {
-        setUser(false);
-        navigate("distributor/register");
-      }
-      console.log(response);
+      dispatch(getDistributorInfo(walletId));
+      dispatch(getWalletNFTs(walletId));
     }
-    // setConnected(true);
-    // setUser(true);
+    setConnected(true);
+    setUser(true);
   };
+  const redirect = () => {
+    if (distributor.distributorId) {
+      setUser(true);
+      setConnected(true);
+
+      if (localStorage.getItem("verified") === null) {
+        return navigate("distributor/addons");
+      }
+      navigate("/");
+    }
+  };
+  useEffect(redirect, [redirect]);
+
   const handleLogut = async () => {
     localStorage.removeItem("distributor");
     setConnected(false);
     navigate("/");
   };
+
   return (
     <div className="navbar">
       <div className="navbar-links">
