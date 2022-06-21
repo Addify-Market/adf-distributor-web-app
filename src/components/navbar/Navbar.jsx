@@ -55,7 +55,7 @@ const Navbar = () => {
     setConnected(true);
     setUser(true);
   };
-  useEffect(() => {
+  const redirect = () => {
     if (distributor.distributorId) {
       setUser(true);
       setConnected(true);
@@ -65,7 +65,9 @@ const Navbar = () => {
       }
       navigate("/");
     }
-  }, [distributor]);
+  };
+  useEffect(redirect, [redirect]);
+
   const handleLogut = async () => {
     localStorage.removeItem("distributor");
     setConnected(false);

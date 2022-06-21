@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./addon.css";
 import { useNavigate } from "react-router-dom";
-import creator from "../../assets/seller2.png";
 import item from "../../assets/item1.png";
 import nftAddrRef from "../../assets/nft-addr.png";
 import Dialog from "@mui/material/Dialog";
@@ -16,13 +15,13 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { v4 as uuidv4 } from "uuid";
-import { ethers } from "ethers";
 import { getAddondetails, getNFTdetails, linkAddon } from "./action";
 
 const AddonDetails = () => {
   let navigate = useNavigate();
   const [addr, setAddr] = useState("");
   const [PK, setPK] = useState("");
+  console.log(PK);
   const [mask, setMask] = useState("");
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
@@ -35,6 +34,7 @@ const AddonDetails = () => {
   const [contractAddr, setContractAddr] = useState(null);
   const [tokenId, setTokenId] = useState(null);
   const [NFT, setNFT] = useState({});
+  console.log(NFT);
   const [importPK, setImportPK] = useState(false);
   const [error, setError] = useState(null);
   const params = window.location.pathname.split("/");
@@ -60,7 +60,7 @@ const AddonDetails = () => {
   };
 
   useEffect(fetchAddonDetails, [fetchAddonDetails, fetching, fetched]);
-  useEffect(fetchNftDetails, [contractAddr, tokenId]);
+  useEffect(fetchNftDetails, [contractAddr, tokenId]); // eslint-disable-line react-hooks/exhaustive-deps
   const handleClickOpen = () => {
     setUuid(uuidv4());
     setOpen(true);
