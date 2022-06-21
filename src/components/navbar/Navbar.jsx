@@ -4,9 +4,10 @@ import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { ethers } from "ethers";
-import axios from "axios";
-import { data } from "../../config";
+import { getDistributorInfo } from "./action";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 const Menu = () => (
   <>
     <Link to="/distributor/available_addons">
@@ -23,6 +24,7 @@ const Navbar = () => {
   const [user, setUser] = useState(true);
   const [is_connected, setConnected] = useState(false);
   let navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     // Update the document title using the browser API
     if (localStorage.getItem("distributor") !== null) {
@@ -35,6 +37,8 @@ const Navbar = () => {
   // const handleLogout = () => {
   //   setUser(false);
   // };
+  
+  const { distributor } = useSelector(state => state);
   const handleLogin = async () => {
     if (!window.ethereum) alert("No crypto wallet found. Please install it.");
 
@@ -49,32 +53,47 @@ const Navbar = () => {
     if (walletId) {
       //console.log(data, "variables");
       localStorage.setItem("distributor", walletId);
-      const response = await axios
-        .get(`${data.serviceUrl}/distributor/${walletId}`)
-        .then(res => res.data)
-        .catch(e => {
-          console.log("\x1b[31mNot Found");
-          return null;
-        });
-      console.log("respon", response);
-      if (response) {
-        setUser(true);
-        setConnected(true);
-        navigate("/");
-      } else {
-        setUser(false);
-        navigate("distributor/register");
-      }
-      console.log(response);
+      // const response = await axios
+      //   .get(`${data.serviceUrl}/distributor/${walletId}`)
+      //   .then(res => res.data)
+      //   .catch(e => {
+      //     console.log("\x1b[31mNot Found");
+      //     return null;
+      //   });
+      // console.log("respon", response);
+      dispatch(getDistributorInfo(walletId));
+      // if (response) {
+      //   setUser(true);
+      //   setConnected(true);
+      //   navigate("/");
+      // } else {
+      //   setUser(false);
+      //   navigate("distributor/register");
+      // }
+      // console.log(response);
     }
-    // setConnected(true);
-    // setUser(true);
+    setConnected(true);
+    setUser(true);
   };
+  useEffect(() => {
+    console.log("redirecting", distributor)
+    // Update the document title using the browser API
+    if (distributor.distributorId) {
+      setUser(true);
+      setConnected(true);
+
+      if (localStorage.getItem("verified") === null) {
+        return navigate("distributor/register");
+      }
+      navigate("/");
+    }
+  }, [distributor]);
   const handleLogut = async () => {
     localStorage.removeItem("distributor");
     setConnected(false);
     navigate("/");
   };
+
   return (
     <div className="navbar">
       <div className="navbar-links">

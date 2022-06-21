@@ -1,15 +1,16 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
-
+import thunk from "redux-thunk";
 const init = {
   keyword: "",
   role: "",
   user: false,
-  addOns: []
+  addOns: [],
+  distributor:{}
 };
 
 const reducer = (state = init, action) => {
@@ -34,7 +35,11 @@ const reducer = (state = init, action) => {
         ...state,
         role: action.payload
       };
-
+    case "DISTRIBUTOR_INFO":
+        return {
+          ...state,
+          distributor: action.data
+        };
     default:
       return state;
   }
@@ -43,14 +48,15 @@ const reducer = (state = init, action) => {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["addOns", "user", "role"]
+  whitelist: ["distributor", "user", "role"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
-
+const enhancers = [applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()];
 const store = createStore(
   persistedReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  undefined,
+  compose(...enhancers)
 );
 
 const persistore = persistStore(store);
