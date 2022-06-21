@@ -26,6 +26,7 @@
   .card-column{
     float: left;
     width: 20%;
+    min-width:300px;
   }
   .bids-card{
     background: #2A2D3A;

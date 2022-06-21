@@ -9,8 +9,13 @@ const init = {
   keyword: "",
   role: "",
   user: false,
-  addOns: [],
-  distributor:{}
+  addons: [],
+  addon: { fetching: false, fetched: false },
+  distributor: {},
+  links: [],
+  nft: { fetching: false, fetched: false },
+  nfts: { list: [], fetching: false, fetched: false },
+  linkCreated: false
 };
 
 const reducer = (state = init, action) => {
@@ -18,7 +23,7 @@ const reducer = (state = init, action) => {
     case "SET_ADDONS":
       return {
         ...state,
-        addOns: action.payload
+        addons: action.payload
       };
     case "SET_KEYWORD":
       return {
@@ -36,10 +41,40 @@ const reducer = (state = init, action) => {
         role: action.payload
       };
     case "DISTRIBUTOR_INFO":
-        return {
-          ...state,
-          distributor: action.data
-        };
+      return {
+        ...state,
+        distributor: action.data
+      };
+    case "FETCH_ADDONS":
+      return {
+        ...state,
+        addons: action.data
+      };
+    case "FETCH_LINKS":
+      return {
+        ...state,
+        links: action.data
+      };
+    case "ADDON_DETAILS":
+      return {
+        ...state,
+        addon: { ...action.data, fetching: false, fetched: true }
+      };
+    case "NFT_DETAILS":
+      return {
+        ...state,
+        nft: { ...action.data, fetching: false, fetched: true }
+      };
+    case "WALLET_NFTS":
+      return {
+        ...state,
+        nfts: { list: action.data, fetching: false, fetched: true }
+      };
+    case "LINK_CREATED":
+      return {
+        ...state,
+        linkCreated: true
+      };
     default:
       return state;
   }
@@ -52,12 +87,8 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
-const enhancers = [applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()];
-const store = createStore(
-  persistedReducer,
-  undefined,
-  compose(...enhancers)
-);
+const enhancers = [applyMiddleware(thunk)];
+const store = createStore(persistedReducer, undefined, compose(...enhancers));
 
 const persistore = persistStore(store);
 
