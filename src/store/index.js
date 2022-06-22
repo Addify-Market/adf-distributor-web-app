@@ -14,6 +14,7 @@ const init = {
   distributor: {},
   links: [],
   nft: { fetching: false, fetched: false },
+  link: { fetching: false, fetched: false },
   nfts: { list: [], fetching: false, fetched: false },
   linkCreated: false
 };
@@ -74,6 +75,11 @@ const reducer = (state = init, action) => {
       return {
         ...state,
         linkCreated: true
+      };
+      case "LINK_DETAILS":
+      return {
+        ...state,
+        link: { ...action.data, fetching: false, fetched: true }
       };
     default:
       return state;

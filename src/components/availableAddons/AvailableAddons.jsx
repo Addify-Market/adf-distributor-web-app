@@ -8,10 +8,10 @@ const AvailableAddons = ({ title }) => {
   const { addons } = useSelector(state => state);
   const [loading, setLoading] = useState(true);
   const renderAddons = () => {
-    if (addons.length) {
-      setLoading(false);
-    } else {
+    if (!addons.length && loading) {
       dispatch(getAddons());
+    } else {
+      setLoading(false);
     }
   };
   useEffect(renderAddons, [renderAddons]);
@@ -25,7 +25,7 @@ const AvailableAddons = ({ title }) => {
           {!loading &&
             addons.map(addon => {
               return (
-                <div className="card-column">
+                <div className="card-column" key={addon.addonId}>
                   <div className="bids-card">
                     <div className="bids-card-top">
                       <img src={addon.logo} alt="" style={{ height: 200 }} />
