@@ -59,14 +59,11 @@ const Navbar = () => {
     if (distributor.distributorId) {
       setUser(true);
       setConnected(true);
-
-      if (localStorage.getItem("verified") === null) {
-        return navigate("distributor/addons");
-      }
-      navigate("/");
+      // navigate("distributor/addons");
+      return;
     }
   };
-  useEffect(redirect, [redirect]);
+  useEffect(redirect, [distributor.distributorId]);
 
   const handleLogut = async () => {
     localStorage.removeItem("distributor");
