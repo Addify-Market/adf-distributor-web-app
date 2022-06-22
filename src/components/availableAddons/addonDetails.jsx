@@ -190,7 +190,7 @@ const AddonDetails = () => {
                       <br />
                       This addon is <b>secured by Addify</b>. Please click on [ this
                       link](
-                      {`https://addify-user-web-app.vercel.app/link/${uuid}`}) to
+                      {`https://adf-distributor-web-app.vercel.app/link/${uuid}`}) to
                       verify the addon before buying the NFT.
                       <br />
                     </p>
