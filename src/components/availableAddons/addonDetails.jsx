@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./addon.css";
 import { useNavigate } from "react-router-dom";
 import item from "../../assets/item1.png";
-import nftAddrRef from "../../assets/nft-addr.png";
+//import nftAddrRef from "../../assets/nft-addr.png";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -15,7 +15,9 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { v4 as uuidv4 } from "uuid";
-import { getAddondetails, getNFTdetails, linkAddon } from "./action";
+import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./action";
+
+
 
 const AddonDetails = () => {
   let navigate = useNavigate();
@@ -39,6 +41,10 @@ const AddonDetails = () => {
   const [error, setError] = useState(null);
   const params = window.location.pathname.split("/");
   const addonId = params[params.length - 1];
+  const [nftList,setNftList] = useState(props.nfts.list);
+  const [selected,setSelected] = useState([]);
+  const [search,setSearch] = useState([]);
+  const [keyword,setKeyword] = useState("");
   const fetchAddonDetails = () => {
     if (!fetching && loading && addonId !== props.addon.addonId) {
       console.log("fetching addon details");
@@ -61,7 +67,23 @@ const AddonDetails = () => {
 
   useEffect(fetchAddonDetails, [fetchAddonDetails, fetching, fetched]);
   useEffect(fetchNftDetails, [contractAddr, tokenId]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    // Update the document title using the browser API
+    if(keyword.length !== 0){
+      setNftList(search)
+    }else{
+      setNftList(props.nfts.list)
+    }
+    
+  },[setNftList,keyword.length,props.nfts.list,search]);
+  useEffect(() => {
+    // Update the document title using the browser API
+    console.log("selected1",selected);
+    
+  },[selected]);
   const handleClickOpen = () => {
+    dispatch(getWalletNFTs(localStorage.getItem("distributor")));
+    
     setUuid(uuidv4());
     setOpen(true);
   };
@@ -70,13 +92,35 @@ const AddonDetails = () => {
     setOpen(false);
   };
 
-  const handleNext = () => {
+  const handleNext = (token_id) => {
+    console.log("token_id",token_id.length)
+    if(token_id.length){
+  
+      const selectednft = nftList.filter(item=> item.token_id.includes(token_id));
+      setSelected(selectednft);
+      //console.log("seleceted",selected);
+      
+      
+    }
+  
     setStep(step + 1);
     console.log(step);
   };
   const handleback = () => {
     setStep(step - 1);
   };
+  const nftSearch = (e) => {
+    console.log(e.target.value,"keyword");
+    setKeyword(e.target.value);
+    if(e.target.value.length === 0){
+      setSearch([]);
+    }else{
+      const searchValue = nftList.filter(item=> item.metadata.name.toLowerCase().includes(keyword.toLowerCase()));
+      console.log("search",searchValue);
+      setSearch(searchValue);
+    }
+    
+  }
   const onNFTAddressChange = e => {
     const nftAddr = e.target.value.split("/");
     setAddr(e.target.value);
@@ -99,15 +143,22 @@ const AddonDetails = () => {
   };
   const handleLink = async () => {
     setLoading(true);
-    await dispatch(
-      linkAddon(
-        uuid,
-        addr,
-        addonId,
-        props.nft.metadata,
-        props.distributor.distributorId
+    console.log("props.distributor.distributorId",props.distributor.distributorId);
+    console.log("selected1",selected);
+    const addr = selected.map(async (data) => {
+  
+      await dispatch(
+        linkAddon(
+          uuid,
+          data.contract_address,
+          addonId,
+          data.metadata,
+          props.distributor.distributorId
+        )
       )
-    );
+    });
+    
+    
     navigate("/distributor/links");
   };
   return (
@@ -171,9 +222,37 @@ const AddonDetails = () => {
           >
             <DialogTitle id="alert-dialog-title">Link your NFT</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
+              <DialogContentText component="div" id="alert-dialog-description">
+                
+                
+                 
                 {step === 1 ? (
                   <>
+                    <div className="search">
+                    <input type="text" onChange={nftSearch} placeholder="Search" />
+                </div>
+                <div className="image-container">
+                  {console.log(nftList,"nftList")}
+                {
+                  
+                  nftList.map((nft,index)=>
+                      
+                      <div className="images" key={index}>
+                        <div className="image"> 
+                            <img src ={nft.metadata.image} onClick={()=>handleNext(nft.token_id)} alt={nft.metadata.name}/>
+                        </div>
+                        <div className="title" >
+                          <span>{nft.metadata.name}</span>
+                        </div>
+                        </div>
+                      
+                  )
+                } 
+                </div>
+                  </>
+                ) : step === 2 ? (
+                  <>
+                    <br />
                     <b>Please paste this on your NFT description & create NFT</b>
                     <br />
                     <br />
@@ -194,55 +273,6 @@ const AddonDetails = () => {
                       verify the addon before buying the NFT.
                       <br />
                     </p>
-                    <br />
-                  </>
-                ) : step === 2 ? (
-                  <>
-                    <br />
-                    <b>
-                      Once your NFT is created, paste your Contract Address & Token
-                      Id here:
-                    </b>
-                    <br />
-                    <br />
-                    <p
-                      style={{
-                        width: "80%",
-                        margin: "auto",
-                        padding: "5%",
-                        backgroundColor: "#fcfcfc",
-                        borderRadius: "10px"
-                      }}
-                    >
-                      <TextField
-                        style={{
-                          width: "100%",
-                          fontSize: 10
-                        }}
-                        id="outlined-basic"
-                        placeholder="0xce229448a8945c8f57e37c60a64/12546"
-                        variant="outlined"
-                        value={addr}
-                        onClick={() => {
-                          setError(null);
-                        }}
-                        onBlur={onNFTAddressChange}
-                        onChange={onNFTAddressChange}
-                      />
-                    </p>
-                    <p
-                      style={{
-                        color: "red",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        height: 20,
-                        marginBottom: 10
-                      }}
-                    >
-                      {error}
-                    </p>
-                    <img src={nftAddrRef} style={{ width: "100%" }} alt="nft addr" />
-                    <br />
                     <br />
                   </>
                 ) : (
@@ -266,7 +296,7 @@ const AddonDetails = () => {
                     </p>
                     <hr />
                     <br />
-                    <FormGroup>
+                    {/* <FormGroup>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -279,7 +309,7 @@ const AddonDetails = () => {
                         }
                         label="Enable auto debit from your wallet"
                       />
-                    </FormGroup>
+                    </FormGroup> */}
                     <br />
                     <br />
                     {importPK && (

@@ -1,6 +1,6 @@
 import { publicGet, externalGet, privatePost } from "../../utils/apiCaller";
 import variables from "../../config/index";
-
+import data from "./testData";
 export const getAddons = () => dispatch => {
   publicGet(`addons`)
     .then(response => {
@@ -44,6 +44,39 @@ export const getNFTdetails = (contractAddr, tokenId) => dispatch => {
     .catch(error => {
       console.log(`error: `, error);
     });
+};
+
+let nfts = [];
+const allNFTs = (wallet, next = null) => {
+  let url = `${variables.NFTPortUrl}/accounts/${wallet}?chain=rinkeby`;
+  if (next) {
+    url += `&continuation=${next}`;
+  }
+  console.log(url);
+  return externalGet(`${url}`, {
+    Authorization: variables.NFTPortKey
+  })
+    .then(response => {
+      console.log(response.data);
+      for (let nft of response.data.nfts) {
+        nfts.push(`${nft.contract_address}/${nft.token_id}`);
+      }
+      if (response.data.continuation) {
+        return allNFTs(wallet, response.data.continuation);
+      } else {
+        return nfts;
+      }
+    })
+    .catch(error => {
+      console.log(`error: `, error);
+    });
+};
+
+export const getWalletNFTs = walletAddr => async dispatch => {
+  //const walletNFTs = await allNFTs(walletAddr);
+  //dispatch({ type: "WALLET_NFTS", data: walletNFTs });
+  dispatch({ type: "WALLET_NFTS", data: data.nfts });
+  nfts = [];
 };
 
 export const linkAddon =
