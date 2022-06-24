@@ -23,6 +23,7 @@ const MyAddons = ({ title }) => {
           <h1>{title}</h1>
         </div>
         <div className="bids-container-card">
+          {console.log("links")}
           {!loading &&
             links.map(link => {
               return (
