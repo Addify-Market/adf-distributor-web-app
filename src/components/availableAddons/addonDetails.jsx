@@ -9,11 +9,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+// import TextField from "@mui/material/TextField";
+// import Button from "@mui/material/Button";
+// import FormGroup from "@mui/material/FormGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 import { v4 as uuidv4 } from "uuid";
 import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./action";
 
@@ -22,6 +22,7 @@ import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./actio
 const AddonDetails = () => {
   let navigate = useNavigate();
   const [addr, setAddr] = useState("");
+  const [copied, setCopied] = useState(false);
   const [PK, setPK] = useState("");
   console.log(PK);
   const [mask, setMask] = useState("");
@@ -43,6 +44,7 @@ const AddonDetails = () => {
   const addonId = params[params.length - 1];
   const [nftList,setNftList] = useState(props.nfts.list);
   const [selected,setSelected] = useState([]);
+  const [selectImage, setSelecteImage] = useState(true);
   const [search,setSearch] = useState([]);
   const [keyword,setKeyword] = useState("");
   const fetchAddonDetails = () => {
@@ -92,20 +94,31 @@ const AddonDetails = () => {
     setOpen(false);
   };
 
-  const handleNext = (token_id) => {
-    console.log("token_id",token_id.length)
+  const selectNFTImage = (e,token_id) => {
+    //console.log("event",e);
+    
+
+    setSelecteImage(()=> !selectImage);
+    if(!selectImage){
+      e.target.classList.remove("selected");
+    }else{
+      e.target.classList.add("selected");
+    }
+    // console.log("token_id",token_id.length)
     if(token_id.length){
   
       const selectednft = nftList.filter(item=> item.token_id.includes(token_id));
       setSelected(selectednft);
-      //console.log("seleceted",selected);
       
       
     }
   
-    setStep(step + 1);
-    console.log(step);
+    // setStep(step + 1);
+    // console.log(step);
   };
+  const handleNext = () => {
+    setStep(step + 1);
+  }
   const handleback = () => {
     setStep(step - 1);
   };
@@ -121,18 +134,18 @@ const AddonDetails = () => {
     }
     
   }
-  const onNFTAddressChange = e => {
-    const nftAddr = e.target.value.split("/");
-    setAddr(e.target.value);
-    console.log(props);
-    if (props.nfts.list.indexOf(e.target.value) === -1) {
-      setError("This NFT doesen't belongs to your wallet");
-      return;
-    }
-    setLoading(true);
-    setContractAddr(nftAddr[0]);
-    setTokenId(nftAddr[1]);
-  };
+  // const onNFTAddressChange = e => {
+  //   const nftAddr = e.target.value.split("/");
+  //   setAddr(e.target.value);
+  //   console.log(props);
+  //   if (props.nfts.list.indexOf(e.target.value) === -1) {
+  //     setError("This NFT doesen't belongs to your wallet");
+  //     return;
+  //   }
+  //   setLoading(true);
+  //   setContractAddr(nftAddr[0]);
+  //   setTokenId(nftAddr[1]);
+  // };
   const onPKChange = e => {
     setPK(e.target.value);
     let mask = "";
@@ -158,9 +171,20 @@ const AddonDetails = () => {
       )
     });
     
-    
-    navigate("/distributor/links");
+    setStep(step + 1);
+    //navigate("/distributor/links");
   };
+  const paylater = ()  => {
+    //console.log("props",props);
+    setStep(step + 1);
+
+  }
+  const handleSubmit = () => {
+    const linkId = props.linkId
+    navigate("/link/"+linkId);
+  }
+ 
+
   return (
     <>
       {props.addon.addonId !== addonId ? (
@@ -215,6 +239,7 @@ const AddonDetails = () => {
           </div>
           <Dialog
             maxWidth="md"
+            fullWidth={true}
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
@@ -223,12 +248,9 @@ const AddonDetails = () => {
             <DialogTitle id="alert-dialog-title">Link your NFT</DialogTitle>
             <DialogContent>
               <DialogContentText component="div" id="alert-dialog-description">
-                
-                
-                 
-                {step === 1 ? (
-                  <>
-                    <div className="search">
+              {step ===1 && 
+              <>
+                <div className="search">
                     <input type="text" onChange={nftSearch} placeholder="Search" />
                 </div>
                 <div className="image-container">
@@ -239,151 +261,115 @@ const AddonDetails = () => {
                       
                       <div className="images" key={index}>
                         <div className="image"> 
-                            <img src ={nft.metadata.image} onClick={()=>handleNext(nft.token_id)} alt={nft.metadata.name}/>
+                            {/* <img src ={nft.metadata.image} onClick={()=>handleNext(nft.token_id)} alt={nft.metadata.name}/> */}
+                            {console.log(selectImage,"selectImage")}
+                            <img src ={nft.metadata.image}  onClick={(e)=>selectNFTImage(e,nft.token_id)} alt={nft.metadata.name}/> 
                         </div>
                         <div className="title" >
                           <span>{nft.metadata.name}</span>
                         </div>
                         </div>
-                      
                   )
                 } 
                 </div>
-                  </>
-                ) : step === 2 ? (
-                  <>
+                <div className="">
+                  <button
+                    style={{backgroundColor: selectImage ? "#dddddd" : "white"}}
+                    className="next"
+                    disabled={selectImage}
+                    onClick={handleLink}
+                    autoFocus
+                  >
+                    {loading ? "Please wait" : "Link"}
+                  </button>
+                </div>
+                </>
+              }
+              
+              {step ===2 && 
+              <>
+               <br />
+                  <div className="success-link" >Congrats! Linked Successufully</div>
+                  <br/>
+                  <b>Please paste this on your NFT description & update NFT</b>
+                  <br />
+                  <p
+                    
+                    style={{
+                      width: "80%",
+                      margin: "auto",
+                      padding: "5%",
+                      backgroundColor: copied?"#79bbff":"#fcfcfc",
+                      borderRadius: "10px"
+                    }}
+                    onClick={() =>  {
+                      setCopied(true);
+                      setTimeout(()=>{
+                        setCopied(false)
+                      },200)
+                      navigator.clipboard.writeText(`
+                    ### Get *Exciting Addon* with this NFT.
+
+                    This addon is **secured by Addify**. Please click on [this link](https://adf-distributor-web-app.vercel.app/link/${uuid}) to verify the addon before buying the NFT.`)
+                  }}
+                  >
+                    <b>Get Exciting addon</b> With this NFT.
                     <br />
-                    <b>Please paste this on your NFT description & create NFT</b>
+                    This addon is <b>secured by Addify</b>. Please click on <a href={`https://adf-distributor-web-app.vercel.app/link/${uuid}`} target="_blank">this
+                    link</a> to verify the addon before buying the NFT.
                     <br />
-                    <br />
-                    <p
-                      style={{
-                        width: "80%",
-                        margin: "auto",
-                        padding: "5%",
-                        backgroundColor: "#fcfcfc",
-                        borderRadius: "10px"
-                      }}
-                    >
-                      <b>Get FREE {addon.title}</b> With this NFT.
-                      <br />
-                      This addon is <b>secured by Addify</b>. Please click on [ this
-                      link](
-                      {`https://adf-distributor-web-app.vercel.app/link/${uuid}`}) to
-                      verify the addon before buying the NFT.
-                      <br />
-                    </p>
-                    <br />
-                  </>
-                ) : (
-                  <>
-                    <b>Important</b>
-                    <br />
-                    <p
-                      style={{
-                        color: "red",
-                        fontWeight: "bold",
-                        width: "80%",
-                        margin: "auto",
-                        padding: "5%",
-                        backgroundColor: "#fcfcfc",
-                        borderRadius: "10px"
-                      }}
-                    >
-                      Addon Linking won't cost you anything, but you need to pay,
-                      before your buyer redeems the Addon. Redeemtion process will
-                      fail otherwise.
-                    </p>
-                    <hr />
-                    <br />
-                    {/* <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={importPK}
-                            defaultChecked
-                            onChange={() => {
-                              setImportPK(!importPK);
-                            }}
-                          />
-                        }
-                        label="Enable auto debit from your wallet"
-                      />
-                    </FormGroup> */}
-                    <br />
-                    <br />
-                    {importPK && (
-                      <>
-                        <b>Import wallet</b>
-                        <br />
-                        <br />
-                        <p
-                          style={{
-                            width: "80%",
-                            margin: "auto",
-                            padding: "5%",
-                            backgroundColor: "#fcfcfc",
-                            borderRadius: "10px"
-                          }}
-                        >
-                          <b>We need permission</b> to sign the transaction. We won't
-                          charge anything now. You wallet{" "}
-                          <b>
-                            will be charged only when your NFT is sold & your buyer
-                            redeems the addon
-                          </b>
-                          .
-                          <br />
-                          Each time you link addon to your NFT, you need to enter
-                          your private key. As{" "}
-                          <b>We don't store your private key for security reason.</b>
-                          <br />
-                          <br />
-                          Enter your private key:
-                          <br />
-                          <TextField
-                            style={{
-                              width: "100%"
-                            }}
-                            id="outlined-basic"
-                            placeholder="NFT Address"
-                            variant="outlined"
-                            value={mask}
-                            onChange={onPKChange}
-                          />
-                          <br />
-                        </p>
-                        <br />
-                        You can also buy the Addon directly form here & link to your
-                        NFT.
-                        <br />
-                      </>
-                    )}
-                  </>
-                )}
+                  </p>
+                  <div className="payment">
+                      <button className="paynow">Pay Now</button>
+                      <button className="button-6" onClick={paylater}> Pay Later</button>
+                  </div>
+                  
+                </>
+              }
+              
+              {step === 3 && 
+                <>
+                <p 
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  width: "80%",
+                  margin: "auto",
+                  padding: "5%",
+                  backgroundColor: "#fcfcfc",
+                  borderRadius: "10px"
+                }}>You need to pay,
+                before your buyer redeems the Addon. Otherwise, Redeemtion process will
+                fail.</p>
+                <button
+                style={{backgroundColor: selectImage ? "#dddddd" : "white"}}
+                className="next"
+                onClick={handleSubmit}
+                autoFocus
+              >
+                {loading ? "Please wait" : "Done"}
+              </button>
+                </>
+                
+              }
+                 
+               
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              {step > 1 && <Button onClick={handleback}>Back</Button>}
-              {step < 3 ? (
-                <button
-                  className="nextButton"
-                  disabled={error}
-                  onClick={handleNext}
-                  autoFocus
-                >
-                  Next
-                </button>
-              ) : (
-                <button
-                  className="nextButton"
-                  disabled={error || loading}
-                  onClick={handleLink}
-                  autoFocus
-                >
-                  {loading ? "Please wait" : "Link"}
-                </button>
-              )}
+              {console.log("step",step)}
+              {/* {step ===1 && 
+                  <button
+                    className="nextButton"
+                    style={{backgroundColor: selectImage ? "#dddddd" : "white"}}
+                    disabled={selectImage}
+                    onClick={handleLink}
+                    autoFocus
+                  >
+                    {loading ? "Please wait" : "Link"}
+                  </button>
+              }
+               */}
             </DialogActions>
           </Dialog>
         </div>
