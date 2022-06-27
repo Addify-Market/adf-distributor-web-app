@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./item.css";
 import creator from "../../assets/seller2.png";
+import linkimage from "../../assets/link.jpg"
 
 import { getLinkDetails } from "./action";
 import Button from "@mui/material/Button";
@@ -26,17 +27,19 @@ const Item = () => {
   useEffect(fetchLinkDetails, [fetchLinkDetails, fetching, fetched]);
 
   return (
+    
     <div className="item section__padding">
       {link.linkId && (
         <>
-          <div className="item-content">
+        <div className="card">
+        <div className="item-content">
             <div className="item-content-title">
               <h1>{link.addonId.title}</h1>
               <p>
                 Price: <span>{link.addonId.price} ETH</span>
                 <br /> Status: {link.status === 0 ? "Inactive" : "active"}
               </p>
-              <img src={link.addonId.logo} alt="" />
+              <img src={link.addonId.logo} style={{width:"300px",height:"300px"}} alt="" />
             </div>
             <div className="item-content-creator">
               <div>
@@ -44,44 +47,48 @@ const Item = () => {
               </div>
               <div>
                 <img src={creator} alt="creator" />
-                <p>Business Name</p>
+                <p >Business Name</p>
               </div>
             </div>
             <div className="item-content-detail">
-              <p>{link.addonId.description}</p>
+              <div className="item-description">{link.addonId.description}</div>
               <hr />
               {link.status === 0 && (
-                <p>
+                <div className="item-description">
                   <h3>Request NFT Owner to ACTIVATE this addon</h3>
                   <Button className="primary-btn" onClick={() => {}}>
                     Activation request
                   </Button>
-                </p>
+                </div >
               )}
             </div>
           </div>
+        </div>
+       <img src={linkimage} style={{margin:"350px 100px  0 100px" }}/>  
           {link.metadata && (
-            <div className="item-content">
-              <div className="item-content-title">
-                <h1>{link.metadata.name}</h1>
-                <p>
-                  <br /> Status: Linked
-                </p>
-                <img src={link.metadata.image} alt="" />
-              </div>
-              <div className="item-content-creator">
-                <div>
-                  <p>collection</p>
+            <div className="card">
+              <div className="item-content">
+                <div className="item-content-title">
+                  <h4>{link.metadata.name}</h4>
+                  <p>
+                    <br /> Status: Linked
+                  </p>
+                  <img src={link.metadata.image} style={{width:"300px",height:"300px"}} alt="" />
                 </div>
-                <div>
-                  <img src={creator} alt="creator" />
-                  <p>{link.metadata.collection}</p>
+                <div className="item-content-creator">
+                  <div>
+                    <p>collection</p>
+                  </div>
+                  <div>
+                    <img src={creator} alt="creator" />
+                    <p>{link.metadata.collection}</p>
+                  </div>
+                </div>
+                <div className="item-content-detail">
+                <div className="item-description">{link.metadata.description}</div>
                 </div>
               </div>
-              <div className="item-content-detail">
-                <p>{link.metadata.description}</p>
               </div>
-            </div>
           )}
         </>
       )}
