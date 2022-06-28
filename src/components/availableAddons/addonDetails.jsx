@@ -16,16 +16,16 @@ import DialogTitle from "@mui/material/DialogTitle";
 // import Checkbox from "@mui/material/Checkbox";
 import { v4 as uuidv4 } from "uuid";
 import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./action";
-
+import loader from "../../assets/loading2.gif";
 
 
 const AddonDetails = () => {
   let navigate = useNavigate();
-  const [addr, setAddr] = useState("");
+  //const [addr, setAddr] = useState("");
   const [copied, setCopied] = useState(false);
-  const [PK, setPK] = useState("");
-  console.log(PK);
-  const [mask, setMask] = useState("");
+  //const [PK, setPK] = useState("");
+  //console.log(PK);
+  //const [mask, setMask] = useState("");
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [uuid, setUuid] = useState("");
@@ -34,12 +34,12 @@ const AddonDetails = () => {
   const props = useSelector(state => state);
   const { fetching, fetched } = props.addon;
   const [loading, setLoading] = useState(true);
-  const [contractAddr, setContractAddr] = useState(null);
-  const [tokenId, setTokenId] = useState(null);
+  const [contractAddr] = useState(null);
+  const [tokenId] = useState(null);
   const [NFT, setNFT] = useState({});
   console.log(NFT);
-  const [importPK, setImportPK] = useState(false);
-  const [error, setError] = useState(null);
+  // const [importPK, setImportPK] = useState(false);
+  // const [error, setError] = useState(null);
   const params = window.location.pathname.split("/");
   const addonId = params[params.length - 1];
   const [nftList,setNftList] = useState(props.nfts.list);
@@ -47,6 +47,7 @@ const AddonDetails = () => {
   const [selectImage, setSelecteImage] = useState(true);
   const [search,setSearch] = useState([]);
   const [keyword,setKeyword] = useState("");
+  const [message] =useState( "Please Wait...");
   const fetchAddonDetails = () => {
     if (!fetching && loading && addonId !== props.addon.addonId) {
       console.log("fetching addon details");
@@ -116,12 +117,12 @@ const AddonDetails = () => {
     // setStep(step + 1);
     // console.log(step);
   };
-  const handleNext = () => {
-    setStep(step + 1);
-  }
-  const handleback = () => {
-    setStep(step - 1);
-  };
+  // const handleNext = () => {
+  //   setStep(step + 1);
+  // }
+  // const handleback = () => {
+  //   setStep(step - 1);
+  // };
   const nftSearch = (e) => {
     console.log(e.target.value,"keyword");
     setKeyword(e.target.value);
@@ -146,19 +147,19 @@ const AddonDetails = () => {
   //   setContractAddr(nftAddr[0]);
   //   setTokenId(nftAddr[1]);
   // };
-  const onPKChange = e => {
-    setPK(e.target.value);
-    let mask = "";
-    for (let i = 0; i < e.target.value.length; i++) {
-      mask += "*";
-    }
-    setMask(mask);
-  };
+  // const onPKChange = e => {
+  //   setPK(e.target.value);
+  //   let mask = "";
+  //   for (let i = 0; i < e.target.value.length; i++) {
+  //     mask += "*";
+  //   }
+  //   setMask(mask);
+  // };
   const handleLink = async () => {
     setLoading(true);
     console.log("props.distributor.distributorId",props.distributor.distributorId);
     console.log("selected1",selected);
-    const addr = selected.map(async (data) => {
+    selected.map(async (data) => {
   
       await dispatch(
         linkAddon(
@@ -188,7 +189,17 @@ const AddonDetails = () => {
   return (
     <>
       {props.addon.addonId !== addonId ? (
-        "loading..."
+        <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
+          <img
+            src={loader}
+            alt="vybuhijk"
+            style={{ width: "400px", height: "400px", margin: "auto" }}
+          />
+          <br />
+          <b style={{ fontSize: "20pt", color:"white" }}>
+            {message ? message : "Creating. Please wait..."}
+          </b>
+        </div>
       ) : (
         <div className="item section__padding">
           <div className="item-image">
@@ -315,7 +326,7 @@ const AddonDetails = () => {
                   >
                     <b>Get Exciting addon</b> With this NFT.
                     <br />
-                    This addon is <b>secured by Addify</b>. Please click on <a href={`https://adf-distributor-web-app.vercel.app/link/${uuid}`} target="_blank">this
+                    This addon is <b>secured by Addify</b>. Please click on <a href={`https://adf-distributor-web-app.vercel.app/link/${uuid}`} target="_blank" rel="noreferrer">this
                     link</a> to verify the addon before buying the NFT.
                     <br />
                   </p>

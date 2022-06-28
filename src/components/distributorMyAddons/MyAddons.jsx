@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import "./myaddons.css";
 import { Link } from "react-router-dom";
 import { getLinks } from "./action";
+import loader from "../../assets/loading2.gif";
 const MyAddons = ({ title }) => {
   const dispatch = useDispatch();
   const { links, distributor } = useSelector(state => state);
   const [loading, setLoading] = useState(true);
+  const [message] =useState( "Please Wait...");
   const renderLinks = () => {
     if (links.length) {
       setLoading(false);
@@ -47,7 +49,19 @@ const MyAddons = ({ title }) => {
                 </div>
               );
             })}
-          {loading && "Loading..."}
+          {loading && 
+            <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
+            <img
+              src={loader}
+              alt="vybuhijk"
+              style={{ width: "400px", height: "400px", margin: "auto" }}
+            />
+            <br />
+            <b style={{ fontSize: "20pt", color:"white" }}>
+              {message ? message : "Creating. Please wait..."}
+            </b>
+          </div>
+          }
         </div>
       </div>
     </div>

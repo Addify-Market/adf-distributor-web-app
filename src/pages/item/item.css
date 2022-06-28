@@ -1,7 +1,8 @@
 .item{
   display: flex;
-  padding: 0 6rem;
+  padding: 0px;
   font-family: var(--font-family);
+  margin-left: 230px;
 }
 .item-image{
   flex: 1;
@@ -33,7 +34,6 @@
   font-size: 28px;
   line-height: 42px;
   color: #FFFFFF;
-  padding: 2rem;
 }
 .item-content-title p{
   font-family: var(--font-family);
@@ -218,7 +218,7 @@ section {
 }
 .card {
   position: relative;
-  width: 550px;
+  width: 450px;
   min-height: 400px;
   height: auto;
   overflow: hidden;
