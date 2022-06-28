@@ -4,6 +4,7 @@ import "./availableAddons.css";
 import { Link } from "react-router-dom";
 import loader from "../../assets/loading2.gif";
 import { getAddons } from "./action";
+import loading from "../../assets/loading";
 const AvailableAddons = ({ title }) => {
   const dispatch = useDispatch();
   const { addons } = useSelector(state => state);
@@ -17,6 +18,14 @@ const AvailableAddons = ({ title }) => {
     }
   };
   useEffect(renderAddons, [renderAddons]);
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loading,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
   return (
     <div className="bids section__padding">
       <div className="bids-container">
