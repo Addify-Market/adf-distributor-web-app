@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./item.css";
-import creator from "../../assets/seller2.png";
+// import creator from "../../assets/seller2.png";
 import linkimage from "../../assets/link.jpg"
 
 import { getLinkDetails } from "./action";
 import Button from "@mui/material/Button";
+import loader from "../../assets/loading2.gif";
+// import CircularProgress from '@mui/material/CircularProgress';
+// import Box from '@mui/material/Box';
 const Item = () => {
   const props = useSelector(state => state);
   const dispatch = useDispatch();
@@ -14,6 +17,7 @@ const Item = () => {
   const [loading, setLoading] = useState(true);
   const params = window.location.pathname.split("/");
   const linkId = params[params.length - 1];
+  const [message] =useState( "Please Wait...");
   const fetchLinkDetails = () => {
     if (!fetching && loading && linkId !== props.link.linkId) {
       console.log("fetching link details");
@@ -34,14 +38,15 @@ const Item = () => {
         <div className="card">
         <div className="item-content">
             <div className="item-content-title">
+              <img src={link.addonId.logo} style={{width:"300px",height:"300px"}} alt={link.addonId.title} />
               <h1>{link.addonId.title}</h1>
               <p>
                 Price: <span>{link.addonId.price} ETH</span>
                 <br /> Status: {link.status === 0 ? "Inactive" : "active"}
               </p>
-              <img src={link.addonId.logo} style={{width:"300px",height:"300px"}} alt="" />
+              
             </div>
-            <div className="item-content-creator">
+            {/* <div className="item-content-creator">
               <div>
                 <p>Supplier</p>
               </div>
@@ -49,8 +54,10 @@ const Item = () => {
                 <img src={creator} alt="creator" />
                 <p >Business Name</p>
               </div>
-            </div>
+            </div> */}
+            
             <div className="item-content-detail">
+              <h3 style={{textAlign:"left",marginBottom:"10px"}}>Description</h3>
               <div className="item-description">{link.addonId.description}</div>
               <hr />
               {link.status === 0 && (
@@ -64,18 +71,19 @@ const Item = () => {
             </div>
           </div>
         </div>
-       <img src={linkimage} style={{margin:"350px 100px  0 100px" }}/>  
+       <img src={linkimage} style={{margin:"350px 100px  0 100px" }} alt="link Addon"/>  
           {link.metadata && (
             <div className="card">
               <div className="item-content">
                 <div className="item-content-title">
-                  <h4>{link.metadata.name}</h4>
+                  <img src={link.metadata.image} style={{width:"300px",height:"300px"}} alt="" />
+                  <h1>{link.metadata.name}</h1>
                   <p>
                     <br /> Status: Linked
                   </p>
-                  <img src={link.metadata.image} style={{width:"300px",height:"300px"}} alt="" />
+                  
                 </div>
-                <div className="item-content-creator">
+                {/* <div className="item-content-creator">
                   <div>
                     <p>collection</p>
                   </div>
@@ -83,8 +91,9 @@ const Item = () => {
                     <img src={creator} alt="creator" />
                     <p>{link.metadata.collection}</p>
                   </div>
-                </div>
+                </div> */}
                 <div className="item-content-detail">
+                <h3 style={{textAlign:"left",marginBottom:"10px"}}>Description</h3>
                 <div className="item-description">{link.metadata.description}</div>
                 </div>
               </div>
@@ -92,6 +101,23 @@ const Item = () => {
           )}
         </>
       )}
+      {loading && 
+       <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
+       <img
+         src={loader}
+         alt="vybuhijk"
+         style={{ width: "400px", height: "400px", margin: "auto" }}
+       />
+       {/* <Box sx={{ display: 'flex' }} style={{justifyContent:"center", marginTop:"300px"}}>
+        <CircularProgress />
+      </Box> */}
+       <br />
+       <b style={{ fontSize: "20pt", color:"white" }}>
+         {message ? message : "Creating. Please wait..."}
+       </b>
+     </div>
+
+      }
     </div>
   );
 };
