@@ -5,7 +5,7 @@ import "./item.css";
 import linkimage from "../../assets/link.jpg"
 
 import { getLinkDetails } from "./action";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import loader from "../../assets/loading2.gif";
 // import CircularProgress from '@mui/material/CircularProgress';
 // import Box from '@mui/material/Box';
@@ -38,8 +38,8 @@ const Item = () => {
         <div className="card">
         <div className="item-content">
             <div className="item-content-title">
-              <img src={link.addonId.logo} style={{width:"300px",height:"300px"}} alt={link.addonId.title} />
-              <h1>{link.addonId.title}</h1>
+              <img src={link.addonId.logo} style={{width:"300px",height:"300px", marginLeft:"40px"}} alt={link.addonId.title} />
+              <h1 style={{marginLeft:"40px"}}>{link.addonId.title}</h1>
               <p>
                 Price: <span>{link.addonId.price} ETH</span>
                 <br /> Status: {link.status === 0 ? "Inactive" : "active"}
@@ -59,26 +59,25 @@ const Item = () => {
             <div className="item-content-detail">
               <h3 style={{textAlign:"left",marginBottom:"10px"}}>Description</h3>
               <div className="item-description">{link.addonId.description}</div>
-              <hr />
+              
               {link.status === 0 && (
                 <div className="item-description">
-                  <h3>Request NFT Owner to ACTIVATE this addon</h3>
-                  <Button className="primary-btn" onClick={() => {}}>
+                  <button className="primary-btn request-button" onClick={() => {}}>
                     Activation request
-                  </Button>
+                  </button>
                 </div >
               )}
             </div>
           </div>
         </div>
-       <img src={linkimage} style={{margin:"350px 100px  0 100px" }} alt="link Addon"/>  
+       <img src={linkimage} style={{margin:"350px 100px  0 100px"}} alt="link Addon"/>  
           {link.metadata && (
             <div className="card">
               <div className="item-content">
                 <div className="item-content-title">
-                  <img src={link.metadata.image} style={{width:"300px",height:"300px"}} alt="" />
-                  <h1>{link.metadata.name}</h1>
-                  <p>
+                  <img src={link.metadata.image} style={{width:"300px",height:"300px", marginLeft:"40px"}} alt="" />
+                  <h1 style={{marginLeft:"40px"}}>{link.metadata.name}</h1>
+                  <p style={{marginLeft:"40px"}}>
                     <br /> Status: Linked
                   </p>
                   
