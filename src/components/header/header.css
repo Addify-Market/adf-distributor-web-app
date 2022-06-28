@@ -7,7 +7,7 @@
 }
 .header-content div{
   background: var(--primary-btn);
-  width: 100%;
+  width: 1500px;
   height: 300px;
   border-radius: 25px;
   display: flex;

@@ -17,6 +17,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { v4 as uuidv4 } from "uuid";
 import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./action";
 import loader from "../../assets/loading2.gif";
+import {Navbar, Footer} from "../../components"
 
 
 const AddonDetails = () => {
@@ -188,6 +189,7 @@ const AddonDetails = () => {
 
   return (
     <>
+    <Navbar/>
       {props.addon.addonId !== addonId ? (
         <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
           <img
@@ -274,7 +276,7 @@ const AddonDetails = () => {
                         <div className="image"> 
                             {/* <img src ={nft.metadata.image} onClick={()=>handleNext(nft.token_id)} alt={nft.metadata.name}/> */}
                             {console.log(selectImage,"selectImage")}
-                            <img src ={nft.metadata.image}  onClick={(e)=>selectNFTImage(e,nft.token_id)} alt={nft.metadata.name}/> 
+                            <img src ={nft.metadata.image} className="addon-preview"  onClick={(e)=>selectNFTImage(e,nft.token_id)} alt={nft.metadata.name}/> 
                         </div>
                         <div className="title" >
                           <span>{nft.metadata.name}</span>
@@ -385,6 +387,7 @@ const AddonDetails = () => {
           </Dialog>
         </div>
       )}
+      <Footer />
     </>
   );
 };

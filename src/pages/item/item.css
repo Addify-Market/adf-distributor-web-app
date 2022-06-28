@@ -253,10 +253,11 @@ section {
   display: block;
   text-align: justify;
   margin-right: 0px;
+  height: 180px;
 }
 
 .request-button {
-  width: 100%;
+  width: 369px;
   height: 40px;
   background: #fff;
   color: #7a56c0;

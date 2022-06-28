@@ -7,6 +7,8 @@ import linkimage from "../../assets/link.jpg"
 import { getLinkDetails } from "./action";
 // import Button from "@mui/material/Button";
 import loader from "../../assets/loading2.gif";
+import { useNavigate } from "react-router-dom";
+import {Navbar, Footer} from "../../components";
 // import CircularProgress from '@mui/material/CircularProgress';
 // import Box from '@mui/material/Box';
 const Item = () => {
@@ -18,6 +20,7 @@ const Item = () => {
   const params = window.location.pathname.split("/");
   const linkId = params[params.length - 1];
   const [message] =useState( "Please Wait...");
+  let navigate = useNavigate();
   const fetchLinkDetails = () => {
     if (!fetching && loading && linkId !== props.link.linkId) {
       console.log("fetching link details");
@@ -31,7 +34,8 @@ const Item = () => {
   useEffect(fetchLinkDetails, [fetchLinkDetails, fetching, fetched]);
 
   return (
-    
+    <>
+    <Navbar/>
     <div className="item section__padding">
       {link.linkId && (
         <>
@@ -60,17 +64,17 @@ const Item = () => {
               <h3 style={{textAlign:"left",marginBottom:"10px"}}>Description</h3>
               <div className="item-description">{link.addonId.description}</div>
               
-              {link.status === 0 && (
+            </div>
+            {link.status === 0 && (
                 <div className="item-description">
                   <button className="primary-btn request-button" onClick={() => {}}>
                     Activation request
                   </button>
                 </div >
               )}
-            </div>
           </div>
         </div>
-       <img src={linkimage} style={{margin:"350px 100px  0 100px"}} alt="link Addon"/>  
+       <img src={linkimage} style={{margin:"350px 100px  0 100px"}} className="addon-preview" alt="link Addon"/>  
           {link.metadata && (
             <div className="card">
               <div className="item-content">
@@ -100,6 +104,12 @@ const Item = () => {
           )}
         </>
       )}
+      {console.log("linkid",link.linkId)}
+      {!link.linkId && !loading &&
+
+        navigate("/link/yet-to-bind")
+
+      }
       {loading && 
        <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
        <img
@@ -117,7 +127,7 @@ const Item = () => {
      </div>
 
       }
-    </div>
+    </div><Footer /></>
   );
 };
 
