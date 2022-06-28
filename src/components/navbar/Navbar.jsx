@@ -40,7 +40,7 @@ const Navbar = () => {
   //   setUser(false);
   // };
 
-  const { distributor } = useSelector(state => state);
+  const { distributor, settings } = useSelector(state => state);
   const handleLogin = async () => {
     if (!window.ethereum) alert("No crypto wallet found. Please install it.");
 
@@ -74,6 +74,7 @@ const Navbar = () => {
   };
 
   return (
+    <>
     <div className="navbar">
       <div className="navbar-links">
         <div className="navbar-links_logo">
@@ -158,6 +159,7 @@ const Navbar = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,9 +1,11 @@
 import React from "react";
-import { DistributorMyAddons } from "../../components";
+import { DistributorMyAddons, Navbar, Footer } from "../../components";
 export default function SupplierMyAddon() {
   return (
-    <div>
-      <DistributorMyAddons title="Linked Addons" />
-    </div>
+    <>
+      <Navbar/>
+        <div><DistributorMyAddons title="Linked Addons" /></div>
+      <Footer />
+    </>
   );
 }

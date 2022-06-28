@@ -1,7 +1,12 @@
 import React from 'react'
-import {AvailableAddons} from '../../components'
+import {AvailableAddons, Navbar, Footer} from '../../components'
 export default function AvailableAddonsPages() {
   return (
-    <div><AvailableAddons/></div>
+    <>
+      <Navbar/>
+       <div><AvailableAddons/></div>
+       <Footer />
+    </>
+    
   )
 }
