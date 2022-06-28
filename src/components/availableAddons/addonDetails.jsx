@@ -204,8 +204,9 @@ const AddonDetails = () => {
         </div>
       ) : (
         <div className="item section__padding">
+          {console.log(addon,"addon")}
           <div className="item-image">
-            <img src={item} alt="item" style={{ width: 200, height: 200 }} />
+            <img src={addon.logo} alt="item" style={{ width: '400px', height: '400px' }} />
           </div>
           <div className="item-content">
             <div className="item-content-title">
