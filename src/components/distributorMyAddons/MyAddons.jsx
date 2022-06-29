@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import "./myaddons.css";
 import { Link } from "react-router-dom";
 import { getLinks } from "./action";
-import loader from "../../assets/loading2.gif";
+// import loader from "../../assets/loading2.gif";
+import { ThreeCircles } from  'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 const MyAddons = ({ title }) => {
   const dispatch = useDispatch();
   const { links, distributor } = useSelector(state => state);
@@ -50,11 +52,17 @@ const MyAddons = ({ title }) => {
               );
             })}
           {loading && 
-            <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
-            <img
+            <div style={{ width: "100%", marginTop:"200px", marginBottom:"100px",textAlign: "center" }}>
+            {/* <img
               src={loader}
               alt="vybuhijk"
               style={{ width: "400px", height: "400px", margin: "auto" }}
+            /> */}
+            <ThreeCircles
+              color="#f70f76"
+              outerCircleColor="#11b6c5"
+              middleCircleColor="#f70f76"
+              innerCircleColor="#7202c0"
             />
             <br />
             <b style={{ fontSize: "20pt", color:"white" }}>

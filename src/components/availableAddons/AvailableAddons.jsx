@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./availableAddons.css";
 import { Link } from "react-router-dom";
-import loader from "../../assets/loading2.gif";
+//import loader from "../../assets/loading2.gif";
 import { getAddons } from "./action";
-import loading from "../../assets/loading";
+//import loading from "../../assets/loading";
+import { ThreeCircles } from  'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 const AvailableAddons = ({ title }) => {
   const dispatch = useDispatch();
   const { addons } = useSelector(state => state);
@@ -18,14 +21,7 @@ const AvailableAddons = ({ title }) => {
     }
   };
   useEffect(renderAddons, [renderAddons]);
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: loading,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
+  
   return (
     <div className="bids section__padding">
       <div className="bids-container">
@@ -54,12 +50,19 @@ const AvailableAddons = ({ title }) => {
               );
             })}
           {loading && 
-            <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
-            <img
+            <div style={{ width: "100%", marginTop:"200px", marginBottom:"100px",textAlign: "center" }}>
+            {/* <img
               src={loader}
               alt="vybuhijk"
               style={{ width: "400px", height: "400px", margin: "auto" }}
+            /> */}
+            <ThreeCircles
+              color="#f70f76"
+              outerCircleColor="#11b6c5"
+              middleCircleColor="#f70f76"
+              innerCircleColor="#7202c0"
             />
+            {/* <ThreeCircles color="#f70f76" outerCircleColor="#11b6c5" /> */}
             <br />
             <b style={{ fontSize: "20pt", color:"white" }}>
               {message ? message : "Creating. Please wait..."}
