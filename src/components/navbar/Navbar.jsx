@@ -25,6 +25,8 @@ const Navbar = () => {
   const [is_connected, setConnected] = useState(false);
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  let referrer = document.referrer;
+  console.log("referrer",referrer);
   useEffect(() => {
     // Update the document title using the browser API
     if (localStorage.getItem("distributor") !== null) {
@@ -38,7 +40,7 @@ const Navbar = () => {
   //   setUser(false);
   // };
 
-  const { distributor } = useSelector(state => state);
+  const { distributor, settings } = useSelector(state => state);
   const handleLogin = async () => {
     if (!window.ethereum) alert("No crypto wallet found. Please install it.");
 
@@ -72,10 +74,11 @@ const Navbar = () => {
   };
 
   return (
+    <>
     <div className="navbar">
       <div className="navbar-links">
         <div className="navbar-links_logo">
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" style={{width:"32px",height:"32px"}}/>
           <Link to="/">
             <h1>Adify</h1>
           </Link>
@@ -156,6 +159,7 @@ const Navbar = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

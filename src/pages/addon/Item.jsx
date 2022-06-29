@@ -132,7 +132,7 @@ const Item = () => {
                     <br />
                     This addon is <b>secured by Addify</b>. Please click on{" "}
                     <a
-                      href={`https://addify-user-web-app.vercel.app/link/${uuid}`}
+                      href={`https://adf-distributor-web-app.vercel.app/link/${uuid}`}
                       style={{ color: "purple" }}
                     >
                       this link
