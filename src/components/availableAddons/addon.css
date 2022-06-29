@@ -246,7 +246,7 @@
 }
 
 .selected {
-  box-shadow:0px 12px 22px 1px #333;
+  box-shadow:0px 12px 22px 10px rgb(14, 13, 13);
 }
 
 .description {

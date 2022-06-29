@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./addon.css";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,8 @@ import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./actio
 import {Navbar, Footer} from "../../components";
 import { ThreeCircles } from  'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-
+import  {PreviewImage}  from "./previewImage";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const AddonDetails = () => {
   let navigate = useNavigate();
@@ -40,6 +41,7 @@ const AddonDetails = () => {
   const [contractAddr] = useState(null);
   const [tokenId] = useState(null);
   const [NFT, setNFT] = useState({});
+  const [spinner, setSpinner] = useState(false);
   console.log(NFT);
   // const [importPK, setImportPK] = useState(false);
   // const [error, setError] = useState(null);
@@ -82,6 +84,27 @@ const AddonDetails = () => {
     }
     
   },[setNftList,keyword.length,props.nfts.list,search]);
+//   useEffect(() => {
+//     // const loadImage = image => {
+//     //   return new Promise((resolve, reject) => {
+//     //     const loadImg = new Image()
+//     //     loadImg.src = image.url
+//     //     // wait 2 seconds to simulate loading time
+//     //     loadImg.onload = () =>
+//     //       setTimeout(() => {
+//     //         resolve(image.url)
+//     //       }, 2000)
+
+//     //     loadImg.onerror = err => reject(err)
+//     //   })
+//     // }
+//     // Promise.all(nftList.map(image => loadImage(image.metadata.image)))
+//     // .then(() => setSpinner(true))
+//     // .catch(err => console.log("Failed to load images", err))
+//     setTimeout(() => {
+//       setSpinner(true)
+//    }, 2000)
+// }, [])
   useEffect(() => {
     // Update the document title using the browser API
     console.log("selected1",selected);
@@ -89,7 +112,9 @@ const AddonDetails = () => {
   },[selected]);
   const handleClickOpen = () => {
     dispatch(getWalletNFTs(localStorage.getItem("distributor")));
-    
+    setTimeout(() => {
+      setSpinner(true)
+   }, 3000)
     setUuid(uuidv4());
     setOpen(true);
   };
@@ -99,15 +124,32 @@ const AddonDetails = () => {
   };
 
   const selectNFTImage = (e,token_id) => {
-    //console.log("event",e);
+    console.log("event token",e,token_id);
     
-
-    setSelecteImage(()=> !selectImage);
-    if(!selectImage){
-      e.target.classList.remove("selected");
+    const selectedClass = document.querySelector(".selected");
+    console.log("selectedClass", selectedClass);
+    
+    // if(e.target.classList.contains("selected")){
+    //   e.target.classList.remove("selected");
+    // }
+    if(e.target.classList.contains("selected")){
+      selectedClass.classList.remove("selected")
+      
+      //e.target.classList.add("selected");
+      console.log("classremove",e.target.classList);
+      setSelecteImage(()=> true);
+    }else if (selectedClass){
+      selectedClass.classList.remove("selected");
+      e.target.classList.add("selected");
+      setSelecteImage(()=> false);
     }else{
       e.target.classList.add("selected");
+      setSelecteImage(()=> false);
+      console.log("classadd",e.target.classList);
     }
+    
+    console.log("selectImage",selectImage);
+    console.log("selectTokenid",token_id);
     // console.log("token_id",token_id.length)
     if(token_id.length){
   
@@ -267,31 +309,39 @@ const AddonDetails = () => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">Link your NFT</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+              {(step === 1) &&
+                <>
+                Link your NFT
+                </>
+              }
+              {(step === 2) &&
+                <>
+                 Unlockable Content Description
+                </>
+              }
+              {(step === 3) &&
+                <>
+                 Unlockable Content Description
+                </>
+              }
+              </DialogTitle>
             <DialogContent>
               <DialogContentText component="div" id="alert-dialog-description">
               {step ===1 && 
               <>
-                <div className="search">
+                {/* <div className="search">
                     <input type="text" onChange={nftSearch} placeholder="Search" />
-                </div>
+                </div> */}
                 <div className="image-container">
                   {console.log(nftList,"nftList")}
                 {
                   
                   nftList.map((nft,index)=>
+                    <PreviewImage {...nft}  spinner={spinner} selectNFTImage = {selectNFTImage}/>
                       
-                      <div className="images" key={index}>
-                        <div className="image"> 
-                            {/* <img src ={nft.metadata.image} onClick={()=>handleNext(nft.token_id)} alt={nft.metadata.name}/> */}
-                            {console.log(selectImage,"selectImage")}
-                            <img src ={nft.metadata.image} className="addon-preview"  onClick={(e)=>selectNFTImage(e,nft.token_id)} alt={nft.metadata.name}/> 
-                        </div>
-                        <div className="title" >
-                          <span>{nft.metadata.name}</span>
-                        </div>
-                        </div>
                   )
+                  
                 } 
                 </div>
                 <div className="">

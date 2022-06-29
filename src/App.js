@@ -1,5 +1,5 @@
 import "./App.css";
-import { Navbar, Footer } from "./components";
+
 import {
   Home,
   Item,
