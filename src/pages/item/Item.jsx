@@ -6,9 +6,11 @@ import linkimage from "../../assets/link.jpg"
 
 import { getLinkDetails } from "./action";
 // import Button from "@mui/material/Button";
-import loader from "../../assets/loading2.gif";
+// import loader from "../../assets/loading2.gif";
 import { useNavigate } from "react-router-dom";
 import {Navbar, Footer} from "../../components";
+import { ThreeCircles } from  'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import CircularProgress from '@mui/material/CircularProgress';
 // import Box from '@mui/material/Box';
 const Item = () => {
@@ -111,12 +113,18 @@ const Item = () => {
 
       }
       {loading && 
-       <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
-       <img
+        <div style={{ width: "100%", marginTop:"200px", marginBottom:"200px", marginLeft:"650px" }}>
+       {/* <img
          src={loader}
          alt="vybuhijk"
          style={{ width: "400px", height: "400px", margin: "auto" }}
-       />
+       /> */}
+        <ThreeCircles
+              color="#f70f76"
+              outerCircleColor="#11b6c5"
+              middleCircleColor="#f70f76"
+              innerCircleColor="#7202c0"
+            />
        {/* <Box sx={{ display: 'flex' }} style={{justifyContent:"center", marginTop:"300px"}}>
         <CircularProgress />
       </Box> */}

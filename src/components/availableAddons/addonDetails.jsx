@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./addon.css";
 import { useNavigate } from "react-router-dom";
-import item from "../../assets/item1.png";
+// import item from "../../assets/item1.png";
 //import nftAddrRef from "../../assets/nft-addr.png";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -16,8 +16,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 // import Checkbox from "@mui/material/Checkbox";
 import { v4 as uuidv4 } from "uuid";
 import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./action";
-import loader from "../../assets/loading2.gif";
-import {Navbar, Footer} from "../../components"
+//import loader from "../../assets/loading2.gif";
+import {Navbar, Footer} from "../../components";
+import { ThreeCircles } from  'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 
 const AddonDetails = () => {
@@ -191,12 +193,18 @@ const AddonDetails = () => {
     <>
     <Navbar/>
       {props.addon.addonId !== addonId ? (
-        <div style={{ width: "100%", margin: "auto", textAlign: "center" }}>
-          <img
+        <div style={{ width: "100%", marginTop:"200px", marginBottom:"200px", marginLeft:"850px" }}>
+          {/* <img
             src={loader}
             alt="vybuhijk"
             style={{ width: "400px", height: "400px", margin: "auto" }}
-          />
+          /> */}
+          <ThreeCircles
+              color="#f70f76"
+              outerCircleColor="#11b6c5"
+              middleCircleColor="#f70f76"
+              innerCircleColor="#7202c0"
+            />
           <br />
           <b style={{ fontSize: "20pt", color:"white" }}>
             {message ? message : "Creating. Please wait..."}
