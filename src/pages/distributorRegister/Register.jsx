@@ -1,14 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import './register.css'
-import loader from "../../assets/loading2.gif";
-import axios from "axios";
-import {data} from "../../config";
+
 import { useNavigate } from 'react-router-dom';
+import {Navbar, Footer} from '../../components';
+import { useDispatch } from "react-redux";
+import { ThreeCircles } from  'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import {postDistributorInfo} from './action';
 const Register = () => {
   const [loading,setLoading] = useState(true);
   const [walletId,setWalletId] = useState(null);
   const [message,setMessage] =useState( "Please Set Your Profile...");
-  
+  const [error,setError] = useState({name:""});
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
    name: "",
    email: "",
@@ -35,48 +39,63 @@ const sendRequest = async (e) => {
   try {
   console.log("name1",name);
   if(name===""){
-    alert("Please Fill Up Your Name");
+    setError({name:"Please Fill Up Your Name"});
     return ;
   }
   setLoading(true);
   console.log("ok");
   setMessage("Please Wait")   
-   await axios({
-    method: "POST",
-      url: `${data.serviceUrl}/distributor`,
-      data: {walletId,name,phone,email},
-    });
+  //  await axios({
+  //   method: "POST",
+  //     url: `${data.serviceUrl}/distributor`,
+  //     data: {walletId,name,phone,email},
+  //   });
+  await dispatch(postDistributorInfo(walletId,name,phone,email));
       setLoading(false);
       setMessage("Success!");
-      navigate('/');
+      navigate('/distributor/addons');
   } catch (error) {
     console.log(error);
   }
 };
   return (
-    <div className='register section__padding'>
+    <>
+    <Navbar/>
+    
       {loading ? (
-        <div style={{ width: "80%", margin: "auto", textAlign: "center" }}>
-        <img
-          src={loader}
-          alt="vybuhijk"
-          style={{ width: "50%", margin: "auto" }}
-        />
+        <>
+        <div style={{ width: "100%", marginTop:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
+      
+         <ThreeCircles
+               color="#f70f76"
+               outerCircleColor="#11b6c5"
+               middleCircleColor="#f70f76"
+               innerCircleColor="#7202c0"
+             />
+       
         <br />
-        <b style={{ fontSize: "20pt" }}>
+        </div>
+        <div style={{ width: "100%", marginBottom:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
+          <b style={{ fontSize: "20pt", color:"white" }}>
           {message ? message : "Creating. Please wait..."}
         </b>
-      </div>
+        </div>
+        </>
       ) :(
         <>
+        <div className='register section__padding'>
       <div className="register-container">
-      <h1>let`s share your more information</h1>
+      <h3 style={{textAlign:"center"}}>let`s share your more information</h3>
       
       <form onSubmit={sendRequest} className='register-writeForm form-data' autoComplete='off' >
       
         <div className="register-formGroup">
-          <label>Name</label>
+          <label>Name*</label>
           <input type="text" onChange={handleChange("name")} value={name} placeholder='Name' />
+          {console.log("error",error)}
+          {error.name &&
+            <div style={{color:"red"}} >{error.name}</div>
+          }
         </div>
         <div className="register-formGroup">
           <label>Phone</label>
@@ -91,10 +110,13 @@ const sendRequest = async (e) => {
        </div>
       </form>
     </div>
+    </div>
     </>
     )}
       
-    </div>
+    
+    <Footer />
+   </>
    )
 };
 
