@@ -67,7 +67,8 @@ const Item = () => {
               <div className="item-description">{link.addonId.description}</div>
               
             </div>
-            {link.status === 0 && (
+            {console.log("props",props)}
+            {link.status === 0 && !props.distributor.distributorId && (
                 <div className="item-description">
                   <button className="primary-btn request-button" onClick={() => {}}>
                     Activation request
