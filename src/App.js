@@ -7,7 +7,8 @@ import {
   AvailableAddonsPages,
   DistributorMyAddons,
   AddonDetails,
-  NotAvailable
+  NotAvailable,
+  Register
 } from "./pages";
 import { Routes, Route } from "react-router-dom";
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="distributor/addons" element={<AvailableAddonsPages />} />
         <Route path="distributor/links" element={<DistributorMyAddons />} />
         <Route path="link/yet-to-bind" element={<NotAvailable />} />
+        <Route path="distributor/register" element={<Register />} />
       </Routes>
       {/* <Footer /> */}
     </div>

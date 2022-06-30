@@ -119,7 +119,7 @@ const AddonDetails = () => {
     dispatch(getWalletNFTs(localStorage.getItem("distributor")));
     setTimeout(() => {
       setSpinner(true)
-   }, 3000)
+   }, 1000)
     setUuid(uuidv4());
     setOpen(true);
   };
@@ -410,7 +410,7 @@ const AddonDetails = () => {
                       setCopied(true);
                       setTimeout(()=>{
                         setCopied(false)
-                      },200)
+                      },1000)
                       navigator.clipboard.writeText(`
                     ### Get *Exciting Addon* with this NFT.
 
@@ -461,7 +461,7 @@ const AddonDetails = () => {
                 onClick={handleSubmit}
                 autoFocus
               >
-                {loading ? "Please wait" : "Done"}
+                {loading ? "Please wait" : "OK"}
               </button>
                 </>
                 

@@ -9,6 +9,7 @@ const init = {
   keyword: "",
   role: "",
   user: false,
+  isConnected: false,
   addons: [],
   addon: { fetching: false, fetched: false },
   distributor: {},
@@ -97,6 +98,13 @@ const reducer = (state = init, action) => {
           ...state,
           link: newState
         };
+    case "LOGOUT":
+      return init;
+    case "LOGIN":
+      return {
+        ...state,
+        isConnected: action.data
+      };
     default:
       return state;
   }
@@ -105,7 +113,7 @@ const reducer = (state = init, action) => {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["distributor", "user", "role"]
+  whitelist: ["distributor", "user", "role","isConnected"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);

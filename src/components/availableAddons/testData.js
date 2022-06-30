@@ -1,3 +1,7 @@
+import bids1 from '../../assets/bids1.png'
+import bids2 from '../../assets/bids2.png'
+import bids3 from '../../assets/bids3.png'
+import bids4 from '../../assets/bids4.png'
 const data = {
     "response": "OK",
     "nfts": [
@@ -36,7 +40,7 @@ const data = {
           "collection": "EllioTrades",
           "description": "The UniSwamp is ground zero for warfare with The Institution and its army of Shills. Technically, “District 16”, Uniswamp is a region in southwest Cyber City still left unclaimed by the corporations. The de-facto home of the Cyber City underworld, Uniswamp is infested by renegade shills who do anything to turn a quick buck. Without proper guidance, all those who enter the UniSwamp are consumed by its devious inhabitants, leaving them rekt.",
           "groupSize": 50,
-          "image": "https://gateway.pinata.cloud/ipfs/bafybeiachjnenyxzsn3x3afmxym54q3rwgugzc4feybc66mkgbqwwndbne/resources/2.png",
+          "image": bids1,
           "issue": 9,
           "name": "Betacor",
           "type": "video/mp4",
@@ -86,7 +90,7 @@ const data = {
           "collection": "EllioTrades",
           "description": "The UniSwamp is ground zero for warfare with The Institution and its army of Shills. Technically, “District 16”, Uniswamp is a region in southwest Cyber City still left unclaimed by the corporations. The de-facto home of the Cyber City underworld, Uniswamp is infested by renegade shills who do anything to turn a quick buck. Without proper guidance, all those who enter the UniSwamp are consumed by its devious inhabitants, leaving them rekt.",
           "groupSize": 50,
-          "image": "https://superfarm-images.s3.amazonaws.com/EllioTrades/uniswamp-epic.png",
+          "image": bids2,
           "issue": 9,
           "name": "New NFT",
           "type": "video/mp4",
@@ -136,7 +140,7 @@ const data = {
           "collection": "EllioTrades",
           "description": "The UniSwamp is ground zero for warfare with The Institution and its army of Shills. Technically, “District 16”, Uniswamp is a region in southwest Cyber City still left unclaimed by the corporations. The de-facto home of the Cyber City underworld, Uniswamp is infested by renegade shills who do anything to turn a quick buck. Without proper guidance, all those who enter the UniSwamp are consumed by its devious inhabitants, leaving them rekt.",
           "groupSize": 50,
-          "image": "https://gateway.pinata.cloud/ipfs/bafybeiachjnenyxzsn3x3afmxym54q3rwgugzc4feybc66mkgbqwwndbne/resources/3.png",
+          "image": bids3,
           "issue": 9,
           "name": "Test 1",
           "type": "video/mp4",
@@ -186,7 +190,7 @@ const data = {
           "collection": "EllioTrades",
           "description": "The UniSwamp is ground zero for warfare with The Institution and its army of Shills. Technically, “District 16”, Uniswamp is a region in southwest Cyber City still left unclaimed by the corporations. The de-facto home of the Cyber City underworld, Uniswamp is infested by renegade shills who do anything to turn a quick buck. Without proper guidance, all those who enter the UniSwamp are consumed by its devious inhabitants, leaving them rekt.",
           "groupSize": 50,
-          "image": "https://vw7ckyj2cjsznqasdnomkegcs7fke3qv6h3hu2m5ryls24bu.arweave.net/rb4lYToSZZbAEhtcxRDCl8qibhXx9nppnY4XLXA0__k?ext=jpg",
+          "image": bids4,
           "issue": 9,
           "name": "UniSwamp",
           "type": "video/mp4",
