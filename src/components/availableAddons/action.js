@@ -46,6 +46,11 @@ export const getNFTdetails = (contractAddr, tokenId) => dispatch => {
     });
 };
 
+export const updateStatus = (status,value) => dispatch => {
+ 
+      dispatch({ type: "UPDATE_LINK_STATUS", data: {status,value} });
+};
+
  //let nfts = [];
 // const allNFTs = (wallet, next = null) => {
 //   //let walletId = "0x976e9A7B3112B498824E676dC2779F5edd0494A0";

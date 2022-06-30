@@ -48,6 +48,7 @@ const Item = () => {
               <h1 style={{marginLeft:"40px"}}>{link.addonId.title}</h1>
               <p>
                 Price: <span>{link.addonId.price} ETH</span>
+                {console.log("status",link.status)}
                 <br /> Status: {link.status === 0 ? "Inactive" : "active"}
               </p>
               
@@ -113,8 +114,10 @@ const Item = () => {
         navigate("/link/yet-to-bind")
 
       }
-      {loading && 
-        <div style={{ width: "100%", marginTop:"200px", marginBottom:"200px", marginLeft:"550px" }}>
+    </div>
+    {loading && 
+        <>
+        <div style={{ width: "100%", marginTop:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
        {/* <img
          src={loader}
          alt="vybuhijk"
@@ -130,13 +133,17 @@ const Item = () => {
         <CircularProgress />
       </Box> */}
        <br />
-       <b style={{ fontSize: "20pt", color:"white" }}>
+       </div>
+       <div style={{ width: "100%", marginBottom:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
+         <b style={{ fontSize: "20pt", color:"white" }}>
          {message ? message : "Creating. Please wait..."}
        </b>
-     </div>
+       </div>
+       </>
+     
 
       }
-    </div><Footer /></>
+    <Footer /></>
   );
 };
 
