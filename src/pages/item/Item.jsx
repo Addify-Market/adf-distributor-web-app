@@ -113,7 +113,7 @@ const Item = () => {
 
       }
       {loading && 
-        <div style={{ width: "100%", marginTop:"200px", marginBottom:"200px", marginLeft:"650px" }}>
+        <div style={{ width: "100%", marginTop:"200px", marginBottom:"200px", marginLeft:"550px" }}>
        {/* <img
          src={loader}
          alt="vybuhijk"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./addon.css";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,6 @@ import {Navbar, Footer} from "../../components";
 import { ThreeCircles } from  'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import  {PreviewImage}  from "./previewImage";
-import ClipLoader from "react-spinners/ClipLoader";
 
 const AddonDetails = () => {
   let navigate = useNavigate();
@@ -50,8 +49,8 @@ const AddonDetails = () => {
   const [nftList,setNftList] = useState(props.nfts.list);
   const [selected,setSelected] = useState([]);
   const [selectImage, setSelecteImage] = useState(true);
-  const [search,setSearch] = useState([]);
-  const [keyword,setKeyword] = useState("");
+  //const [search,setSearch] = useState([]);
+  //const [keyword,setKeyword] = useState("");
   const [message] =useState( "Please Wait...");
   const fetchAddonDetails = () => {
     if (!fetching && loading && addonId !== props.addon.addonId) {
@@ -77,13 +76,14 @@ const AddonDetails = () => {
   useEffect(fetchNftDetails, [contractAddr, tokenId]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Update the document title using the browser API
-    if(keyword.length !== 0){
-      setNftList(search)
-    }else{
-      setNftList(props.nfts.list)
-    }
+    // if(keyword.length !== 0){
+    //   setNftList(search)
+    // }else{
+    //   setNftList(props.nfts.list)
+    // }
+    setNftList(props.nfts.list)
     
-  },[setNftList,keyword.length,props.nfts.list,search]);
+  },[setNftList,props.nfts.list]);
 //   useEffect(() => {
 //     // const loadImage = image => {
 //     //   return new Promise((resolve, reject) => {
@@ -168,18 +168,19 @@ const AddonDetails = () => {
   // const handleback = () => {
   //   setStep(step - 1);
   // };
-  const nftSearch = (e) => {
-    console.log(e.target.value,"keyword");
-    setKeyword(e.target.value);
-    if(e.target.value.length === 0){
-      setSearch([]);
-    }else{
-      const searchValue = nftList.filter(item=> item.metadata.name.toLowerCase().includes(keyword.toLowerCase()));
-      console.log("search",searchValue);
-      setSearch(searchValue);
-    }
+  // const nftSearch = (e) => {
+  //   console.log(e.target.value,"keyword");
+  //   setKeyword(e.target.value);
+  //   if(e.target.value.length === 0){
+  //     setSearch([]);
+  //   }else{
+  //     const searchValue = nftList.filter(item=> item.metadata.name.toLowerCase().includes(keyword.toLowerCase()));
+  //     console.log("search",searchValue);
+  //     setSearch(searchValue);
+  //   }
     
-  }
+  // }
+  
   // const onNFTAddressChange = e => {
   //   const nftAddr = e.target.value.split("/");
   //   setAddr(e.target.value);
@@ -322,7 +323,7 @@ const AddonDetails = () => {
               }
               {(step === 3) &&
                 <>
-                 Unlockable Content Description
+                 Note
                 </>
               }
               </DialogTitle>
@@ -363,7 +364,7 @@ const AddonDetails = () => {
                <br />
                   <div className="success-link" >Congrats! Linked Successufully</div>
                   <br/>
-                  <b>Please paste this on your NFT description & update NFT</b>
+                  <p style={{textAlign:"center"}}><b>Please paste this on your NFT description & update NFT</b></p>
                   <br />
                   <p
                     
@@ -385,11 +386,19 @@ const AddonDetails = () => {
                     This addon is **secured by Addify**. Please click on [this link](https://adf-distributor-web-app.vercel.app/link/${uuid}) to verify the addon before buying the NFT.`)
                   }}
                   >
+                    {copied?
+                    (<div style={{textAlign:"center"}}>
+                      Copied
+                    </div>):(
+                    <>
                     <b>Get Exciting addon</b> With this NFT.
                     <br />
                     This addon is <b>secured by Addify</b>. Please click on <a href={`https://adf-distributor-web-app.vercel.app/link/${uuid}`} target="_blank" rel="noreferrer">this
                     link</a> to verify the addon before buying the NFT.
                     <br />
+                    </>
+                    )}
+                    
                   </p>
                   <div className="payment">
                       <button className="paynow">Pay Now</button>
@@ -403,16 +412,14 @@ const AddonDetails = () => {
                 <>
                 <p 
                 style={{
-                  color: "red",
+                  color: "#a5a235",
                   fontWeight: "bold",
                   width: "80%",
                   margin: "auto",
                   padding: "5%",
                   backgroundColor: "#fcfcfc",
                   borderRadius: "10px"
-                }}>You need to pay,
-                before your buyer redeems the Addon. Otherwise, Redeemtion process will
-                fail.</p>
+                }}>Please note, you need to pay for this addon before your buyer redeems this.</p>
                 <button
                 style={{backgroundColor: selectImage ? "#dddddd" : "white"}}
                 className="next"
