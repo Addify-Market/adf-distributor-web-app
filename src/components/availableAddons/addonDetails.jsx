@@ -21,6 +21,7 @@ import {Navbar, Footer} from "../../components";
 import { ThreeCircles } from  'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import  {PreviewImage}  from "./previewImage";
+import { ethers } from "ethers";
 
 const AddonDetails = () => {
   let navigate = useNavigate();
@@ -49,6 +50,7 @@ const AddonDetails = () => {
   const [nftList,setNftList] = useState(props.nfts.list);
   const [selected,setSelected] = useState([]);
   const [selectImage, setSelecteImage] = useState(true);
+  const [error,setError]  = useState("");
   //const [search,setSearch] = useState([]);
   //const [keyword,setKeyword] = useState("");
   const [message] =useState( "Please Wait...");
@@ -84,6 +86,9 @@ const AddonDetails = () => {
     setNftList(props.nfts.list)
     
   },[setNftList,props.nfts.list]);
+  // useEffect(()=> {
+  //   console.log("props",props);
+  // })
 //   useEffect(() => {
 //     // const loadImage = image => {
 //     //   return new Promise((resolve, reject) => {
@@ -226,6 +231,33 @@ const AddonDetails = () => {
     setStep(step + 1);
 
   }
+  const payNow = async()  => {
+    //console.log("props",props);
+    
+    try {
+      if (!window.ethereum)
+        throw new Error("No crypto wallet found. Please install it.");
+      // const web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      
+      const tx1 = await signer.sendTransaction({
+        to: "0x6b61FC8a00e7C0d6E6025C528FCafBBCC43935C6",
+        value: ethers.utils.parseEther(props.addon.price)
+      });
+      //dispatch(updateStatus('status',1));
+      // console.log({ ether, addr });
+       console.log("tx", tx1);
+       handleSubmit();
+      // setTxs([tx]);
+    } catch (err) {
+      console.log(props.addon.price);
+      setError(err.message);
+    }
+
+  }
   const handleSubmit = () => {
     const linkId = props.linkId
     navigate("/link/"+linkId);
@@ -255,7 +287,7 @@ const AddonDetails = () => {
         </div>
       ) : (
         <div className="item section__padding">
-          {console.log(addon,"addon")}
+         
           <div className="item-image">
             <img src={addon.logo} alt="item" style={{ width: '400px', height: '400px' }} />
           </div>
@@ -335,7 +367,6 @@ const AddonDetails = () => {
                     <input type="text" onChange={nftSearch} placeholder="Search" />
                 </div> */}
                 <div className="image-container">
-                  {console.log(nftList,"nftList")}
                 {
                   
                   nftList.map((nft,index)=>
@@ -401,10 +432,14 @@ const AddonDetails = () => {
                     
                   </p>
                   <div className="payment">
-                      <button className="paynow">Pay Now</button>
+                      <button className="paynow" onClick={payNow}>Pay Now</button>
                       <button className="button-6" onClick={paylater}> Pay Later</button>
                   </div>
-                  
+                  {error && 
+                    <div style={{color:"red",textAlign:"center"}} >
+                      {error}
+                    </div>
+                  }
                 </>
               }
               
@@ -436,7 +471,6 @@ const AddonDetails = () => {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              {console.log("step",step)}
               {/* {step ===1 && 
                   <button
                     className="nextButton"

@@ -50,24 +50,30 @@ const AvailableAddons = ({ title }) => {
               );
             })}
           {loading && 
-            <div style={{ width: "100%", marginTop:"200px", marginBottom:"100px",textAlign: "center" }}>
+            <>
+            <div style={{ width: "100%", marginTop:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
             {/* <img
               src={loader}
               alt="vybuhijk"
               style={{ width: "400px", height: "400px", margin: "auto" }}
             /> */}
-            <ThreeCircles
-              color="#f70f76"
-              outerCircleColor="#11b6c5"
-              middleCircleColor="#f70f76"
-              innerCircleColor="#7202c0"
-            />
-            {/* <ThreeCircles color="#f70f76" outerCircleColor="#11b6c5" /> */}
+             <ThreeCircles
+                   color="#f70f76"
+                   outerCircleColor="#11b6c5"
+                   middleCircleColor="#f70f76"
+                   innerCircleColor="#7202c0"
+                 />
+            {/* <Box sx={{ display: 'flex' }} style={{justifyContent:"center", marginTop:"300px"}}>
+             <CircularProgress />
+           </Box> */}
             <br />
-            <b style={{ fontSize: "20pt", color:"white" }}>
+            </div>
+            <div style={{ width: "100%", marginBottom:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
+              <b style={{ fontSize: "20pt", color:"white" }}>
               {message ? message : "Creating. Please wait..."}
             </b>
-          </div>
+            </div>
+            </>
           
           }
         </div>
