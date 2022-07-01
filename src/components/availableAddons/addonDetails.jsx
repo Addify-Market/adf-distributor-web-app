@@ -393,16 +393,16 @@ const AddonDetails = () => {
               {step ===2 && 
               <>
                <br />
-                  <div className="success-link" >Congrats! Linked Successufully</div>
+                  <div className="success-link" >Congratulations! Your NFT has been linked successfully!</div>
                   <br/>
-                  <p style={{textAlign:"center"}}><b>Please paste this on your NFT description & update NFT</b></p>
+                  <p style={{textAlign:"center",paddingLeft:"50px",paddingRight:"50px"}}><b>Update your NFT Description and let everyone know about your exciting Add-on. Simply copy the text below and paste it in your NFT's description.</b></p>
                   <br />
                   <p
                     
                     style={{
                       width: "80%",
                       margin: "auto",
-                      padding: "5%",
+                      padding: "2%",
                       backgroundColor: copied?"#79bbff":"#fcfcfc",
                       borderRadius: "10px"
                     }}
