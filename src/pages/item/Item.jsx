@@ -44,10 +44,11 @@ const Item = () => {
         <div className="card">
         <div className="item-content">
             <div className="item-content-title">
-              <img src={link.addonId.logo} style={{width:"300px",height:"300px", marginLeft:"40px"}} alt={link.addonId.title} />
-              <h1 style={{marginLeft:"40px"}}>{link.addonId.title}</h1>
+              <img src={link.addonId.logo} style={{width:"300px",height:"300px"}} alt={link.addonId.title} />
+              <h1 >{link.addonId.title}</h1>
               <p>
                 Price: <span>{link.addonId.price} ETH</span>
+                {console.log("status",link.status)}
                 <br /> Status: {link.status === 0 ? "Inactive" : "active"}
               </p>
               
@@ -67,23 +68,24 @@ const Item = () => {
               <div className="item-description">{link.addonId.description}</div>
               
             </div>
-            {link.status === 0 && (
+            {console.log("props",props)}
+            {link.status === 0 && !props.distributor.distributorId && (
                 <div className="item-description">
                   <button className="primary-btn request-button" onClick={() => {}}>
-                    Activation request
+                    Sent Activation request
                   </button>
                 </div >
               )}
           </div>
         </div>
-       <img src={linkimage} style={{margin:"350px 100px  0 100px"}} className="addon-preview" alt="link Addon"/>  
+       <img src={linkimage}  className="addon-preview" alt="link Addon"/>  
           {link.metadata && (
             <div className="card">
               <div className="item-content">
                 <div className="item-content-title">
-                  <img src={link.metadata.image} style={{width:"300px",height:"300px", marginLeft:"40px"}} alt="" />
-                  <h1 style={{marginLeft:"40px"}}>{link.metadata.name}</h1>
-                  <p style={{marginLeft:"40px"}}>
+                  <img src={link.metadata.image} style={{width:"300px",height:"300px"}} alt="" />
+                  <h1 >{link.metadata.name}</h1>
+                  <p >
                     <br /> Status: Linked
                   </p>
                   
@@ -112,8 +114,10 @@ const Item = () => {
         navigate("/link/yet-to-bind")
 
       }
-      {loading && 
-        <div style={{ width: "100%", marginTop:"200px", marginBottom:"200px", marginLeft:"650px" }}>
+    </div>
+    {loading && 
+        <>
+        <div style={{ width: "100%", marginTop:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
        {/* <img
          src={loader}
          alt="vybuhijk"
@@ -129,13 +133,17 @@ const Item = () => {
         <CircularProgress />
       </Box> */}
        <br />
-       <b style={{ fontSize: "20pt", color:"white" }}>
+       </div>
+       <div style={{ width: "100%", marginBottom:"200px", justifyContent:"center",alignItems:"center",display:'flex' }}>
+         <b style={{ fontSize: "20pt", color:"white" }}>
          {message ? message : "Creating. Please wait..."}
        </b>
-     </div>
+       </div>
+       </>
+     
 
       }
-    </div><Footer /></>
+    <Footer /></>
   );
 };
 

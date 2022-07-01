@@ -20,7 +20,8 @@ import { getAddondetails, getNFTdetails, linkAddon,getWalletNFTs } from "./actio
 import {Navbar, Footer} from "../../components";
 import { ThreeCircles } from  'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-
+import  {PreviewImage}  from "./previewImage";
+import { ethers } from "ethers";
 
 const AddonDetails = () => {
   let navigate = useNavigate();
@@ -40,6 +41,7 @@ const AddonDetails = () => {
   const [contractAddr] = useState(null);
   const [tokenId] = useState(null);
   const [NFT, setNFT] = useState({});
+  const [spinner, setSpinner] = useState(false);
   console.log(NFT);
   // const [importPK, setImportPK] = useState(false);
   // const [error, setError] = useState(null);
@@ -48,8 +50,9 @@ const AddonDetails = () => {
   const [nftList,setNftList] = useState(props.nfts.list);
   const [selected,setSelected] = useState([]);
   const [selectImage, setSelecteImage] = useState(true);
-  const [search,setSearch] = useState([]);
-  const [keyword,setKeyword] = useState("");
+  const [error,setError]  = useState("");
+  //const [search,setSearch] = useState([]);
+  //const [keyword,setKeyword] = useState("");
   const [message] =useState( "Please Wait...");
   const fetchAddonDetails = () => {
     if (!fetching && loading && addonId !== props.addon.addonId) {
@@ -75,13 +78,38 @@ const AddonDetails = () => {
   useEffect(fetchNftDetails, [contractAddr, tokenId]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Update the document title using the browser API
-    if(keyword.length !== 0){
-      setNftList(search)
-    }else{
-      setNftList(props.nfts.list)
-    }
+    // if(keyword.length !== 0){
+    //   setNftList(search)
+    // }else{
+    //   setNftList(props.nfts.list)
+    // }
+    setNftList(props.nfts.list)
     
-  },[setNftList,keyword.length,props.nfts.list,search]);
+  },[setNftList,props.nfts.list]);
+  // useEffect(()=> {
+  //   console.log("props",props);
+  // })
+//   useEffect(() => {
+//     // const loadImage = image => {
+//     //   return new Promise((resolve, reject) => {
+//     //     const loadImg = new Image()
+//     //     loadImg.src = image.url
+//     //     // wait 2 seconds to simulate loading time
+//     //     loadImg.onload = () =>
+//     //       setTimeout(() => {
+//     //         resolve(image.url)
+//     //       }, 2000)
+
+//     //     loadImg.onerror = err => reject(err)
+//     //   })
+//     // }
+//     // Promise.all(nftList.map(image => loadImage(image.metadata.image)))
+//     // .then(() => setSpinner(true))
+//     // .catch(err => console.log("Failed to load images", err))
+//     setTimeout(() => {
+//       setSpinner(true)
+//    }, 2000)
+// }, [])
   useEffect(() => {
     // Update the document title using the browser API
     console.log("selected1",selected);
@@ -89,7 +117,9 @@ const AddonDetails = () => {
   },[selected]);
   const handleClickOpen = () => {
     dispatch(getWalletNFTs(localStorage.getItem("distributor")));
-    
+    setTimeout(() => {
+      setSpinner(true)
+   }, 1000)
     setUuid(uuidv4());
     setOpen(true);
   };
@@ -99,15 +129,32 @@ const AddonDetails = () => {
   };
 
   const selectNFTImage = (e,token_id) => {
-    //console.log("event",e);
+    console.log("event token",e,token_id);
     
-
-    setSelecteImage(()=> !selectImage);
-    if(!selectImage){
-      e.target.classList.remove("selected");
+    const selectedClass = document.querySelector(".selected");
+    console.log("selectedClass", selectedClass);
+    
+    // if(e.target.classList.contains("selected")){
+    //   e.target.classList.remove("selected");
+    // }
+    if(e.target.classList.contains("selected")){
+      selectedClass.classList.remove("selected")
+      
+      //e.target.classList.add("selected");
+      console.log("classremove",e.target.classList);
+      setSelecteImage(()=> true);
+    }else if (selectedClass){
+      selectedClass.classList.remove("selected");
+      e.target.classList.add("selected");
+      setSelecteImage(()=> false);
     }else{
       e.target.classList.add("selected");
+      setSelecteImage(()=> false);
+      console.log("classadd",e.target.classList);
     }
+    
+    console.log("selectImage",selectImage);
+    console.log("selectTokenid",token_id);
     // console.log("token_id",token_id.length)
     if(token_id.length){
   
@@ -126,18 +173,19 @@ const AddonDetails = () => {
   // const handleback = () => {
   //   setStep(step - 1);
   // };
-  const nftSearch = (e) => {
-    console.log(e.target.value,"keyword");
-    setKeyword(e.target.value);
-    if(e.target.value.length === 0){
-      setSearch([]);
-    }else{
-      const searchValue = nftList.filter(item=> item.metadata.name.toLowerCase().includes(keyword.toLowerCase()));
-      console.log("search",searchValue);
-      setSearch(searchValue);
-    }
+  // const nftSearch = (e) => {
+  //   console.log(e.target.value,"keyword");
+  //   setKeyword(e.target.value);
+  //   if(e.target.value.length === 0){
+  //     setSearch([]);
+  //   }else{
+  //     const searchValue = nftList.filter(item=> item.metadata.name.toLowerCase().includes(keyword.toLowerCase()));
+  //     console.log("search",searchValue);
+  //     setSearch(searchValue);
+  //   }
     
-  }
+  // }
+  
   // const onNFTAddressChange = e => {
   //   const nftAddr = e.target.value.split("/");
   //   setAddr(e.target.value);
@@ -183,6 +231,33 @@ const AddonDetails = () => {
     setStep(step + 1);
 
   }
+  const payNow = async()  => {
+    //console.log("props",props);
+    
+    try {
+      if (!window.ethereum)
+        throw new Error("No crypto wallet found. Please install it.");
+      // const web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      
+      const tx1 = await signer.sendTransaction({
+        to: "0x6b61FC8a00e7C0d6E6025C528FCafBBCC43935C6",
+        value: ethers.utils.parseEther(props.addon.price)
+      });
+      //dispatch(updateStatus('status',1));
+      // console.log({ ether, addr });
+       console.log("tx", tx1);
+       handleSubmit();
+      // setTxs([tx]);
+    } catch (err) {
+      console.log(props.addon.price);
+      setError(err.message);
+    }
+
+  }
   const handleSubmit = () => {
     const linkId = props.linkId
     navigate("/link/"+linkId);
@@ -212,7 +287,7 @@ const AddonDetails = () => {
         </div>
       ) : (
         <div className="item section__padding">
-          {console.log(addon,"addon")}
+         
           <div className="item-image">
             <img src={addon.logo} alt="item" style={{ width: '400px', height: '400px' }} />
           </div>
@@ -267,31 +342,38 @@ const AddonDetails = () => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">Link your NFT</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+              {(step === 1) &&
+                <>
+                Link your NFT
+                </>
+              }
+              {(step === 2) &&
+                <>
+                 Unlockable Content Description
+                </>
+              }
+              {(step === 3) &&
+                <>
+                 Note
+                </>
+              }
+              </DialogTitle>
             <DialogContent>
               <DialogContentText component="div" id="alert-dialog-description">
               {step ===1 && 
               <>
-                <div className="search">
+                {/* <div className="search">
                     <input type="text" onChange={nftSearch} placeholder="Search" />
-                </div>
+                </div> */}
                 <div className="image-container">
-                  {console.log(nftList,"nftList")}
                 {
                   
                   nftList.map((nft,index)=>
+                    <PreviewImage {...nft}  spinner={spinner} selectNFTImage = {selectNFTImage}/>
                       
-                      <div className="images" key={index}>
-                        <div className="image"> 
-                            {/* <img src ={nft.metadata.image} onClick={()=>handleNext(nft.token_id)} alt={nft.metadata.name}/> */}
-                            {console.log(selectImage,"selectImage")}
-                            <img src ={nft.metadata.image} className="addon-preview"  onClick={(e)=>selectNFTImage(e,nft.token_id)} alt={nft.metadata.name}/> 
-                        </div>
-                        <div className="title" >
-                          <span>{nft.metadata.name}</span>
-                        </div>
-                        </div>
                   )
+                  
                 } 
                 </div>
                 <div className="">
@@ -311,16 +393,16 @@ const AddonDetails = () => {
               {step ===2 && 
               <>
                <br />
-                  <div className="success-link" >Congrats! Linked Successufully</div>
+                  <div className="success-link" >Congratulations! Your NFT has been linked successfully!</div>
                   <br/>
-                  <b>Please paste this on your NFT description & update NFT</b>
+                  <p style={{textAlign:"center",paddingLeft:"50px",paddingRight:"50px"}}><b>Update your NFT Description and let everyone know about your exciting Add-on. Simply copy the text below and paste it in your NFT's description.</b></p>
                   <br />
                   <p
                     
                     style={{
                       width: "80%",
                       margin: "auto",
-                      padding: "5%",
+                      padding: "2%",
                       backgroundColor: copied?"#79bbff":"#fcfcfc",
                       borderRadius: "10px"
                     }}
@@ -328,24 +410,36 @@ const AddonDetails = () => {
                       setCopied(true);
                       setTimeout(()=>{
                         setCopied(false)
-                      },200)
+                      },1000)
                       navigator.clipboard.writeText(`
                     ### Get *Exciting Addon* with this NFT.
 
                     This addon is **secured by Addify**. Please click on [this link](https://adf-distributor-web-app.vercel.app/link/${uuid}) to verify the addon before buying the NFT.`)
                   }}
                   >
+                    {copied?
+                    (<div style={{textAlign:"center"}}>
+                      Copied
+                    </div>):(
+                    <>
                     <b>Get Exciting addon</b> With this NFT.
                     <br />
                     This addon is <b>secured by Addify</b>. Please click on <a href={`https://adf-distributor-web-app.vercel.app/link/${uuid}`} target="_blank" rel="noreferrer">this
                     link</a> to verify the addon before buying the NFT.
                     <br />
+                    </>
+                    )}
+                    
                   </p>
                   <div className="payment">
-                      <button className="paynow">Pay Now</button>
+                      <button className="paynow" onClick={payNow}>Pay Now</button>
                       <button className="button-6" onClick={paylater}> Pay Later</button>
                   </div>
-                  
+                  {error && 
+                    <div style={{color:"red",textAlign:"center"}} >
+                      {error}
+                    </div>
+                  }
                 </>
               }
               
@@ -353,23 +447,21 @@ const AddonDetails = () => {
                 <>
                 <p 
                 style={{
-                  color: "red",
+                  color: "#a5a235",
                   fontWeight: "bold",
                   width: "80%",
                   margin: "auto",
                   padding: "5%",
                   backgroundColor: "#fcfcfc",
                   borderRadius: "10px"
-                }}>You need to pay,
-                before your buyer redeems the Addon. Otherwise, Redeemtion process will
-                fail.</p>
+                }}>Please note, you need to pay for this addon before your buyer redeems this.</p>
                 <button
                 style={{backgroundColor: selectImage ? "#dddddd" : "white"}}
                 className="next"
                 onClick={handleSubmit}
                 autoFocus
               >
-                {loading ? "Please wait" : "Done"}
+                {loading ? "Please wait" : "OK"}
               </button>
                 </>
                 
@@ -379,7 +471,6 @@ const AddonDetails = () => {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              {console.log("step",step)}
               {/* {step ===1 && 
                   <button
                     className="nextButton"

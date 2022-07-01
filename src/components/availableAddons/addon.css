@@ -246,7 +246,7 @@
 }
 
 .selected {
-  box-shadow:0px 12px 22px 1px #333;
+  box-shadow:0px 12px 22px 10px rgb(14, 13, 13);
 }
 
 .description {
@@ -262,6 +262,8 @@
 }
 .payment {
   justify-content: center;
+  align-items: center;
+  display: flex;
 }
 .paynow{
   -moz-box-shadow: 3px 4px 0px 0px #1564ad;
@@ -347,7 +349,7 @@
   padding: 0 16px;
   background-color: #fff;
   border-radius: 0.25rem;
-  border: 1px solid #dddbda;
+  border: 1px solid #3a1b0b;
   color: #0070d2;
   font-size: 26px;
   line-height: 30px;

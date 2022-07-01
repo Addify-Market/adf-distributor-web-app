@@ -4,7 +4,7 @@ import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { ethers } from "ethers";
-import { getDistributorInfo, getWalletNFTs } from "./action";
+import { getDistributorInfo, getWalletNFTs, logout,login } from "./action";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,25 +22,25 @@ const Menu = () => (
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [user, setUser] = useState(true);
-  const [is_connected, setConnected] = useState(false);
+  //const [is_connected, setConnected] = useState(false);
   let navigate = useNavigate();
   const dispatch = useDispatch();
   let referrer = document.referrer;
   console.log("referrer",referrer);
-  useEffect(() => {
-    // Update the document title using the browser API
-    if (localStorage.getItem("distributor") !== null) {
-      setConnected(true);
-    } else {
-      setConnected(false);
-    }
-    console.log("isconnected", is_connected);
-  }, [is_connected]);
+  // useEffect(() => {
+  //   // Update the document title using the browser API
+  //   if (localStorage.getItem("distributor") !== null) {
+  //     setConnected(true);
+  //   } else {
+  //     setConnected(false);
+  //   }
+  //   console.log("isconnected", is_connected);
+  // }, [is_connected]);
   // const handleLogout = () => {
   //   setUser(false);
   // };
 
-  const { distributor, settings } = useSelector(state => state);
+  const { distributor, isConnected } = useSelector(state => state);
   const handleLogin = async () => {
     if (!window.ethereum) alert("No crypto wallet found. Please install it.");
 
@@ -49,27 +49,50 @@ const Navbar = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const walletId = await signer.getAddress();
+
     if (walletId) {
       localStorage.setItem("distributor", walletId);
-      dispatch(getDistributorInfo(walletId));
+      //setConnected(true);
+
+       await dispatch(getDistributorInfo(walletId));
+      
+      // if (!distributorInfo) {
+      //   navigate("/distributor/register");
+      // }
+      dispatch(login(true));
       dispatch(getWalletNFTs(walletId));
     }
-    setConnected(true);
+    
     setUser(true);
   };
   const redirect = () => {
-    if (distributor.distributorId) {
-      setUser(true);
-      setConnected(true);
-      // navigate("distributor/addons");
-      return;
+    console.log("distributor",Object.keys(distributor).length);
+    console.log("is_connected",isConnected);
+    if(isConnected && Object.keys(distributor).length===0){
+      console.log("is_connected",isConnected);
+      //setConnected(true);
+      navigate("/distributor/register");
     }
+    // if(is_connected){
+    //   if(!distributor.distributorId){
+    //     navigate("/distributor/register");
+    //   }else{
+    //     navigate("/");
+    //   }
+    // }else{
+    //   setUser(true);
+    //   //setConnected(true);
+    //   navigate("/distributor/addons");
+    //   return;
+    // }
+  
   };
-  useEffect(redirect, [distributor.distributorId]);
+  useEffect(redirect, [distributor,isConnected,navigate]);
 
   const handleLogut = async () => {
     localStorage.removeItem("distributor");
-    setConnected(false);
+    dispatch(logout());
+    //setConnected(false);
     navigate("/");
   };
 
@@ -82,7 +105,7 @@ const Navbar = () => {
           <Link to="/">
             <h1>Adify</h1>
           </Link>
-          {is_connected && (
+          {isConnected && (
             <div className="navbar-links_container">
               <Menu />
             </div>
@@ -90,7 +113,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-sign">
-        {user && !is_connected && (
+        {user && !isConnected && (
           <>
             {/* <Link to="/create">
               <button type="button" className="primary-btn" onClick={handleLogout}>
@@ -102,16 +125,16 @@ const Navbar = () => {
             </button>
           </>
         )}
-        {user && is_connected && (
+        {user && isConnected && (
           <>
             {/* <Link to="/create">
               <button type="button" className="primary-btn" onClick={handleLogout}>
                 Create
               </button>
             </Link> */}
-            <button type="button" className="secondary-btn" onClick={handleLogin}>
+            {/* <button type="button" className="secondary-btn" onClick={handleLogin}>
               Connected
-            </button>
+            </button> */}
             <button type="button" className="primary-btn" onClick={handleLogut}>
               Logout
             </button>
@@ -130,7 +153,7 @@ const Navbar = () => {
               <Menu />
             </div>
             <div className="navbar-menu_container-links-sign">
-              {user && !is_connected && (
+              {user && !isConnected && (
                 <>
                   {/* <Link to="/create">
                     <button type="button" className="primary-btn">
@@ -142,16 +165,16 @@ const Navbar = () => {
                   </button>
                 </>
               )}
-              {user && is_connected && (
+              {user && isConnected && (
                 <>
                   {/* <Link to="/create">
                     <button type="button" className="primary-btn">
                       Create
                     </button>
                   </Link> */}
-                  <button type="button" className="secondary-btn">
+                  {/* <button type="button" className="secondary-btn">
                     Connected
-                  </button>
+                  </button> */}
                 </>
               )}
             </div>

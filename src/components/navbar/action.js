@@ -1,7 +1,7 @@
-import { publicGet, externalGet, publicPost } from "../../utils/apiCaller";
+import { publicGet, externalGet } from "../../utils/apiCaller";
 import variables from "../../config/index";
 export const getDistributorInfo = walletId => dispatch => {
-  publicGet(`distributor/${walletId}`)
+return  publicGet(`distributor/${walletId}`)
     .then(response => {
       dispatch({ type: "DISTRIBUTOR_INFO", data: response.data.data });
       publicGet(`addons`)
@@ -11,43 +11,46 @@ export const getDistributorInfo = walletId => dispatch => {
         .catch(error => {
           // dispatch(updateFail());
           console.log(`error: `, error);
+          
         });
     })
     .catch(error => {
-      publicPost(
-        `distributor`,
-        {},
-        {
-          walletId,
-          name: "Shuhail Alam",
-          phone: null,
-          email: "shuhail@grr.la"
-        }
-      )
-        .then(response => {
-          dispatch({
-            type: "DISTRIBUTOR_INFO",
-            data: {
-              walletId,
-              name: "Shuhail Alam",
-              phone: null,
-              email: "shuhail@grr.la",
-              distributorId: response.data.distributorId
-            }
-          });
-          publicGet(`addons`)
-            .then(response => {
-              dispatch({ type: "FETCH_ADDONS", data: response.data.data });
-            })
-            .catch(error => {
-              // dispatch(updateFail());
-              console.log(`error: `, error);
-            });
-        })
-        .catch(error => {
-          // dispatch(updateFail());
-          console.log(`error: `, error);
-        });
+      console.log("error:", error);
+      //dispatch({ type: "DISTRIBUTOR_INFO", data: {error:"404",distributedId:null}});
+      // publicPost(
+      //   `distributor`,
+      //   {},
+      //   {
+      //     walletId,
+      //     name: "Shuhail Alam",
+      //     phone: null,
+      //     email: "shuhail@grr.la"
+      //   }
+      // )
+      //   .then(response => {
+      //     dispatch({
+      //       type: "DISTRIBUTOR_INFO",
+      //       data: {
+      //         walletId,
+      //         name: "Shuhail Alam",
+      //         phone: null,
+      //         email: "shuhail@grr.la",
+      //         distributorId: response.data.distributorId
+      //       }
+      //     });
+      //     publicGet(`addons`)
+      //       .then(response => {
+      //         dispatch({ type: "FETCH_ADDONS", data: response.data.data });
+      //       })
+      //       .catch(error => {
+      //         // dispatch(updateFail());
+      //         console.log(`error: `, error);
+      //       });
+      //   })
+      //   .catch(error => {
+      //     // dispatch(updateFail());
+      //     console.log(`error: `, error);
+      //   });
     });
 };
 let nfts = [];
@@ -80,4 +83,16 @@ export const getWalletNFTs = walletAddr => async dispatch => {
   const walletNFTs = await allNFTs(walletAddr);
   dispatch({ type: "WALLET_NFTS", data: walletNFTs });
   nfts = [];
+};
+
+export const logout = () => async dispatch => {
+ 
+  dispatch({ type: "LOGOUT"});
+  
+};
+
+export const login = (isConnected) => async dispatch => {
+  
+  dispatch({ type: "LOGIN",data: isConnected});
+  
 };

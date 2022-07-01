@@ -9,6 +9,7 @@ const init = {
   keyword: "",
   role: "",
   user: false,
+  isConnected: false,
   addons: [],
   addon: { fetching: false, fetched: false },
   distributor: {},
@@ -87,6 +88,23 @@ const reducer = (state = init, action) => {
         ...state,
         linkId: action.data 
       };
+      case 'UPDATE_LINK_STATUS':
+        const { status, value } = action.data;
+          // field_name can be first_name, last_name, phone_number
+        console.log('status',state,"value",value)
+        const newState = Object.assign(state, { [status]: value });
+          // Update new state as desired
+        return {
+          ...state,
+          link: newState
+        };
+    case "LOGOUT":
+      return init;
+    case "LOGIN":
+      return {
+        ...state,
+        isConnected: action.data
+      };
     default:
       return state;
   }
@@ -95,7 +113,7 @@ const reducer = (state = init, action) => {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["distributor", "user", "role"]
+  whitelist: ["distributor", "user", "role","isConnected"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -46,39 +46,50 @@ export const getNFTdetails = (contractAddr, tokenId) => dispatch => {
     });
 };
 
- //let nfts = [];
-// const allNFTs = (wallet, next = null) => {
-//   //let walletId = "0x976e9A7B3112B498824E676dC2779F5edd0494A0";
-//   //let url = `${variables.NFTPortUrl}/accounts/${wallet}?chain=rinkeby`;
-//   let url = `${variables.moralis.apiUrl}/${wallet}/nft?chain=rinkeby&format=decimal`
-//   // if (next) {
-//   //   url += `&continuation=${next}`;
-//   // }
-//   console.log(url);
-//   return externalGet(`${url}`, {
-//     "X-API-Key": variables.moralis.apiKey
-//   })
-//     .then(response => {
-//       console.log("nftdata",response.data);
-//       // for (let nft of response.data.nfts) {
-//       //   nfts.push(`${nft.contract_address}/${nft.token_id}`);
-//       // }
-//       // if (response.data.continuation) {
-//       //   return allNFTs(wallet, response.data.continuation);
-//       // } else {
-//       //   return nfts;
-//       // }
-//     }
-//     )
-//     .catch(error => {
-//       console.log(`error: `, error);
-//     });
-// };
+export const updateStatus = (status,value) => dispatch => {
+ 
+      dispatch({ type: "UPDATE_LINK_STATUS", data: {status,value} });
+};
+
+ let nfts = [];
+const allNFTs = (wallet, next = null) => {
+  //let walletId = "0x976e9A7B3112B498824E676dC2779F5edd0494A0";
+  let url = `${variables.NFTPortUrl}/accounts/${wallet}?chain=rinkeby`;
+  //let url = `${variables.moralis.apiUrl}/${walletId}/nft?chain=eth&format=decimal`
+  if (next) {
+    url += `&continuation=${next}`;
+  }
+  console.log(url);
+  return externalGet(`${url}`, {
+    "X-API-Key": variables.moralis.apiKey
+  })
+    .then(response => {
+      console.log("nftdata",response.data.nfts);
+      for (let nft of response.data) {
+        nfts.push(`${nft.contract_address}/${nft.token_id}`);
+      }
+      if (response.data.continuation) {
+        return allNFTs(wallet, response.data.continuation);
+      } else {
+        return nfts;
+      }
+    }
+    )
+    .catch(error => {
+      console.log(`error: `, error);
+    });
+};
 
 export const getWalletNFTs = walletAddr => async dispatch => {
-  //const walletNFTs = await allNFTs(walletAddr);
+  const walletNFTs = await allNFTs(walletAddr);
+  //console.log("walletNfts",walletNFTs);
+  if(walletNFTs){
+    dispatch({ type: "WALLET_NFTS", data: walletNFTs });
+  }else{
+    dispatch({ type: "WALLET_NFTS", data: data.nfts });
+  }
   //dispatch({ type: "WALLET_NFTS", data: walletNFTs });
-  dispatch({ type: "WALLET_NFTS", data: data.nfts });
+  
   //nfts = [];
 };
 
