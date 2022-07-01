@@ -1,6 +1,6 @@
 import { publicPost ,publicGet } from "../../utils/apiCaller";
 export const postDistributorInfo = (walletId,name,phone,email) => dispatch => {
-    publicPost(
+   return publicPost(
         `distributor`,
         {},
         {
