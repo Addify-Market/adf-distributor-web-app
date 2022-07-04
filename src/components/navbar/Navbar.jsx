@@ -25,8 +25,6 @@ const Navbar = () => {
   //const [is_connected, setConnected] = useState(false);
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  let referrer = document.referrer;
-  console.log("referrer",referrer);
   // useEffect(() => {
   //   // Update the document title using the browser API
   //   if (localStorage.getItem("distributor") !== null) {
