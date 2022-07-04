@@ -19,7 +19,7 @@ const MyAddons = ({ title }) => {
     }
   };
   useEffect(renderLinks, [renderLinks]);
-
+  
   return (
     <div className="bids section__padding">
       <div className="bids-container">

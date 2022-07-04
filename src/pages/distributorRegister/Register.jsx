@@ -10,8 +10,8 @@ import {postDistributorInfo} from './action';
 const Register = () => {
   const [loading,setLoading] = useState(true);
   const [walletId,setWalletId] = useState(null);
-  const [message,setMessage] =useState( "Please Set Your Profile...");
-  const [error,setError] = useState({name:""});
+  const [message,setMessage] =useState( "Please Wait...");
+  const [error,setError] = useState({name:"",email:""});
   const dispatch = useDispatch();
   const [values, setValues] = useState({
    name: "",
@@ -40,6 +40,10 @@ const sendRequest = async (e) => {
   console.log("name1",name);
   if(name===""){
     setError({name:"Please Fill Up Your Name"});
+    return ;
+  }
+  if(email===""){
+    setError({email:"Please Fill Up Your Email"});
     return ;
   }
   setLoading(true);
@@ -94,17 +98,21 @@ const sendRequest = async (e) => {
           <input type="text" onChange={handleChange("name")} value={name} placeholder='Name' />
           {console.log("error",error)}
           {error.name &&
-            <div style={{color:"red"}} >{error.name}</div>
+            <div style={{color:"red",padding:"15px"}} >{error.name}</div>
+          }
+        </div>
+        <div className="register-formGroup">
+          <label>Email*</label>
+          <input type="email" onChange={handleChange("email")} value={email} placeholder='Email' />
+          {error.email &&
+            <div style={{color:"red",padding:"15px"}} >{error.email}</div>
           }
         </div>
         <div className="register-formGroup">
           <label>Phone</label>
           <input type="text" onChange={handleChange("phone")} value={phone} placeholder='Phone' />
         </div>
-        <div className="register-formGroup">
-          <label>Email</label>
-          <input type="email" onChange={handleChange("email")} value={email} placeholder='Email' />
-        </div>
+        
        <div className="register-button">
         <button className='register-writeButton'>submit</button>
        </div>

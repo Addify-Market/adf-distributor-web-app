@@ -353,11 +353,6 @@ const AddonDetails = () => {
                  Unlockable Content Description
                 </>
               }
-              {(step === 3) &&
-                <>
-                 Note
-                </>
-              }
               </DialogTitle>
             <DialogContent>
               <DialogContentText component="div" id="alert-dialog-description">
@@ -401,8 +396,8 @@ const AddonDetails = () => {
                     
                     style={{
                       width: "80%",
-                      margin: "auto",
-                      padding: "2%",
+                      margin: "auto auto 30px",
+                      padding: "3%",
                       backgroundColor: copied?"#79bbff":"#fcfcfc",
                       borderRadius: "10px"
                     }}
@@ -447,22 +442,39 @@ const AddonDetails = () => {
                 <>
                 <p 
                 style={{
-                  color: "#a5a235",
+                  color: "rgb(136 195 45)",
                   fontWeight: "bold",
                   width: "80%",
+                  fontSize: "30px",
                   margin: "auto",
                   padding: "5%",
                   backgroundColor: "#fcfcfc",
-                  borderRadius: "10px"
-                }}>Please note, you need to pay for this addon before your buyer redeems this.</p>
+                  borderRadius: "10px",
+                  justifyContent:"center",
+                  display:"flex"
+                }}>!!! Please Note !!! </p>
+                 <p 
+                style={{
+                  color: "rgb(41 139 44)",
+                  fontWeight: "bold",
+                  fontSize: "25px",
+                  margin: "auto",
+                  backgroundColor: "#fcfcfc",
+                  borderRadius: "10px",
+                  justifyContent:"center",
+                  display:"flex",
+                  alignItems:"center"
+                }}>You need to pay for this addon before your buyer redeems this. </p>
+                <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <button
-                style={{backgroundColor: selectImage ? "#dddddd" : "white"}}
+                style={{backgroundColor: selectImage ? "#dddddd" : "white",width:"30%"}}
                 className="next"
                 onClick={handleSubmit}
                 autoFocus
               >
                 {loading ? "Please wait" : "OK"}
               </button>
+              </div>
                 </>
                 
               }
