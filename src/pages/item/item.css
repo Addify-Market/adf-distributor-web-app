@@ -220,7 +220,7 @@ section {
   position: relative;
   width: 450px;
   min-height: 400px;
-  height: 800px;
+  height: 880px;
   overflow: hidden;
   margin: 2rem;
   font-family: Raleway, sans-serif;
@@ -257,10 +257,10 @@ section {
 }
 
 .request-button {
-  width: 369px;
+  width: 290px;
   height: 40px;
   background: #fff;
   color: #7a56c0;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 25px;
 }
