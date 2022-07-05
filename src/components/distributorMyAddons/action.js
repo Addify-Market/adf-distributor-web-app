@@ -1,7 +1,7 @@
 import { privateGet } from "../../utils/apiCaller";
 
 export const getLinks = distributorid => dispatch => {
-  privateGet(`distributor/links`, { distributorid })
+ return privateGet(`distributor/links`, { distributorid })
     .then(response => {
       dispatch({ type: "FETCH_LINKS", data: response.data.data });
     })

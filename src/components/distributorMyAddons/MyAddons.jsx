@@ -11,15 +11,22 @@ const MyAddons = ({ title }) => {
   const { links, distributor } = useSelector(state => state);
   const [loading, setLoading] = useState(true);
   const [message] =useState( "Please Wait...");
+  const [noData,setNoData] = useState(false);
   const renderLinks = () => {
     if (links.length) {
       setLoading(false);
+      setNoData(false)
     } else {
-      dispatch(getLinks(distributor.distributorId));
+      getLinksData()
+      //setTimeout(setLoading(false), 1000)
     }
   };
-  useEffect(renderLinks, [renderLinks]);
-  
+  useEffect(renderLinks,[renderLinks]);
+ const getLinksData = async() =>{
+      await dispatch(getLinks(distributor.distributorId));
+      setNoData(true);
+      setLoading(false)
+ }
   return (
     <div className="bids section__padding">
       <div className="bids-container">
@@ -27,11 +34,10 @@ const MyAddons = ({ title }) => {
           <h1>{title}</h1>
         </div>
         <div className="bids-container-card">
-          {console.log("links")}
           {!loading &&
             links.map(link => {
               return (
-                <div className="card-column">
+                <div className="card-column" key={link.linkId}>
                   <div className="bids-card">
                     <div className="bids-card-top">
                       <img
@@ -76,6 +82,9 @@ const MyAddons = ({ title }) => {
              </b>
              </div>
              </>
+          }
+          {!loading && noData &&
+            <h1 style={{color:"white"}}>No data is available</h1>
           }
         </div>
       </div>
